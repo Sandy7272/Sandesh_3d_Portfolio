@@ -1,11 +1,10 @@
-import { useRef, useEffect, useState } from "react";
-import { MdArrowOutward } from "react-icons/md";
+import { useRef, useEffect } from "react";
+import { MdArrowOutward, MdArrowForward } from "react-icons/md";
 import { workCategories } from "../data/workPortfolio";
 import "./styles/Work.css";
 
 const Work = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   const openCategory = (slug: string) => {
     window.dispatchEvent(new CustomEvent("open-work-detail", { detail: slug }));
@@ -27,24 +26,24 @@ const Work = () => {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     );
     sectionRef.current?.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  // Subtle parallax on thumbnails
+  // Subtle parallax on cards
   useEffect(() => {
     const onScroll = () => {
-      const items = sectionRef.current?.querySelectorAll<HTMLElement>(".sw-row");
-      if (!items) return;
+      const cards = sectionRef.current?.querySelectorAll<HTMLElement>(".sw-card");
+      if (!cards) return;
       const vh = window.innerHeight;
-      items.forEach((row) => {
-        const r = row.getBoundingClientRect();
+      cards.forEach((card) => {
+        const r = card.getBoundingClientRect();
         const center = r.top + r.height / 2;
-        const offset = ((center - vh / 2) / vh) * -20; // -20..20
-        const img = row.querySelector<HTMLElement>(".sw-row-thumb-inner");
-        if (img) img.style.transform = `translate3d(0, ${offset}px, 0) scale(var(--scale, 1))`;
+        const offset = ((center - vh / 2) / vh) * -16;
+        const img = card.querySelector<HTMLElement>(".sw-card-media-inner");
+        if (img) img.style.transform = `translate3d(0, ${offset}px, 0)`;
       });
     };
     onScroll();
@@ -69,23 +68,20 @@ const Work = () => {
           </p>
         </header>
 
-        {/* Project list */}
-        <ul className="sw-list" role="list">
+        {/* Project grid */}
+        <div className="sw-grid">
           {projects.map((p, i) => {
-            const isActive = hoveredIdx === i;
-            const num = String(i + 1).padStart(2, "0");
+            const year = 2024 - (i % 3);
             return (
-              <li
+              <article
                 key={p.slug}
-                className="sw-row reveal"
+                className="sw-card reveal"
                 style={
                   {
                     "--accent": p.accent,
-                    "--delay": `${i * 80}ms`,
+                    "--delay": `${i * 90}ms`,
                   } as React.CSSProperties
                 }
-                onMouseEnter={() => setHoveredIdx(i)}
-                onMouseLeave={() => setHoveredIdx(null)}
                 onClick={() => openCategory(p.slug)}
                 onKeyDown={(e) => e.key === "Enter" && openCategory(p.slug)}
                 tabIndex={0}
@@ -93,41 +89,47 @@ const Work = () => {
                 data-cursor="view"
                 aria-label={`View ${p.label}`}
               >
-                <div className="sw-row-inner">
-                  <div className="sw-row-meta">
-                    <span className="sw-row-num">{num}</span>
-                    <span className="sw-row-cat">{p.tagline}</span>
+                <div className="sw-card-media">
+                  <div className="sw-card-media-inner">
+                    <img src={p.pieces[0]?.thumbnail} alt={p.label} loading="lazy" />
                   </div>
-
-                  <div className="sw-row-text">
-                    <h3 className="sw-row-title">
-                      <span className="sw-row-icon" aria-hidden>{p.icon}</span>
-                      <span className="sw-row-label">{p.label}</span>
-                    </h3>
-                    <div className="sw-row-info">
-                      <span>{p.pieces.length} Projects</span>
-                      {p.metric && <span className="sw-row-dot">·</span>}
-                      {p.metric && <span className="sw-row-metric">{p.metric}</span>}
-                    </div>
-                  </div>
-
-                  <div className="sw-row-thumb" aria-hidden>
-                    <div className="sw-row-thumb-inner" style={{ ["--scale" as string]: isActive ? 1.08 : 1 }}>
-                      <img src={p.pieces[0]?.thumbnail} alt="" loading="lazy" />
-                      <div className="sw-row-thumb-overlay" />
-                    </div>
-                  </div>
-
-                  <div className="sw-row-arrow">
+                  <span className="sw-card-pill">
+                    {year} <span className="sw-card-pill-sep">/</span> {p.label}
+                  </span>
+                  <button
+                    className="sw-card-corner"
+                    aria-label="Open project"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openCategory(p.slug);
+                    }}
+                    data-cursor="disable"
+                  >
                     <MdArrowOutward />
-                  </div>
+                  </button>
                 </div>
 
-                <span className="sw-row-divider" />
-              </li>
+                <div className="sw-card-foot">
+                  <p className="sw-card-desc">{p.tagline}</p>
+                  <div className="sw-card-foot-row">
+                    <h3 className="sw-card-name">{p.label}</h3>
+                    <button
+                      className="sw-card-cta"
+                      aria-label={`Open ${p.label}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openCategory(p.slug);
+                      }}
+                      data-cursor="disable"
+                    >
+                      <MdArrowForward />
+                    </button>
+                  </div>
+                </div>
+              </article>
             );
           })}
-        </ul>
+        </div>
 
         {/* CTA */}
         <div className="sw-cta-wrap reveal">
