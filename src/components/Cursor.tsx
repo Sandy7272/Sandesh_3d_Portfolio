@@ -86,7 +86,11 @@ const Cursor = () => {
 
   if (!hasFinePointer) return null;
 
-  return <div className="cursor-main" ref={cursorRef}></div>;
+  return (
+    <div className="cursor-main" ref={cursorRef}>
+      <span className="cursor-label">View</span>
+    </div>
+  );
 };
 
 export default Cursor;
