@@ -61,9 +61,12 @@ const Cursor = () => {
         if (element.dataset.cursor === "disable") {
           cursor.classList.add("cursor-disable");
         }
+        if (element.dataset.cursor === "view") {
+          cursor.classList.add("cursor-view");
+        }
       };
       const out = () => {
-        cursor.classList.remove("cursor-disable", "cursor-icons");
+        cursor.classList.remove("cursor-disable", "cursor-icons", "cursor-view");
         hover = false;
       };
       element.addEventListener("mouseover", over);
