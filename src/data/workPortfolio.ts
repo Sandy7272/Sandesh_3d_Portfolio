@@ -1,429 +1,252 @@
-/* ────────────────────────────────────────────
-   Work Portfolio — structured by category
-   ──────────────────────────────────────────── */
+/* ─────────────────────────────────────────────
+   Work Portfolio — single source of truth
+   Curated case studies for Sandesh Gadakh
+   ───────────────────────────────────────────── */
 
 export type MediaItem =
-  | { kind: "image"; src: string; alt?: string }
-  | { kind: "video"; src: string; poster?: string }
-  | { kind: "embed"; src: string; title?: string }; // for Sketchfab / YouTube etc.
+  | { kind: "image"; src: string; alt?: string; caption?: string }
+  | { kind: "video"; src: string; poster?: string; caption?: string }
+  | { kind: "embed"; src: string; title?: string; caption?: string };
 
-export interface WorkPiece {
-  id: string;
-  title: string;
-  subtitle?: string;
-  description: string;
-  thumbnail: string;
-  tools: string[];
-  gallery: MediaItem[];
-  /** Optional external link (Sketchfab, Behance, live site …) */
-  externalUrl?: string;
-  /** Optional live embed URL (BabylonJS viewer, YouTube, etc.) */
-  liveEmbedUrl?: string;
-  /** Only for UI/UX — case-study fields */
-  caseStudy?: {
-    problem: string;
-    process: string;
-    solution: string;
-    results?: string;
-    wireframes?: string[];
-    finalScreens?: string[];
-  };
+export interface CaseStudy {
+  /** Short marketing summary shown on the card */
+  tagline: string;
+  /** One paragraph for the case-study hero */
+  intro: string;
+  problem: string;
+  process: string[];
+  tech: string[];
+  challenges: string[];
+  optimization: string[];
+  finalOutput: string;
+  metrics: { label: string; value: string }[];
+  /** Optional embeddable breakdown video (YouTube/Vimeo embed URL) */
+  breakdownVideo?: string;
 }
 
 export interface WorkCategory {
   slug: string;
+  /** Card title */
   label: string;
-  tagline: string;
-  accent: string; // CSS colour token per category
-  icon: string; // emoji/icon hint
-  featured?: boolean;
-  /** Short metric label shown as a stat pill */
-  metric?: string;
-  pieces: WorkPiece[];
+  /** Short subtitle under the title on the card */
+  subtitle: string;
+  /** Short summary on the card */
+  summary: string;
+  /** Hero / card thumbnail */
+  thumbnail: string;
+  /** Optional media for the case-study hero (defaults to thumbnail image) */
+  hero?: MediaItem;
+  /** Optional supporting gallery for the "Final output" section */
+  gallery: MediaItem[];
+  /** Years active (display only) */
+  year: string;
+  /** Role / context label */
+  context: string;
+  /** Accent color */
+  accent: string;
+  caseStudy: CaseStudy;
 }
 
-/* ── CATEGORIES ─────────────────────────── */
+/* ── CASE STUDIES ─────────────────────────── */
 
 export const workCategories: WorkCategory[] = [
-  /* ▸ VIDEO TO 3D (featured) */
+  /* 1 ─ Interactive 3D / Real-time */
+  {
+    slug: "interactive-3d",
+    label: "AI E-commerce 3D Viewer",
+    subtitle: "Interactive 3D · Real-time Web",
+    summary:
+      "MetaShop AI's first self-service product — a real-time 3D viewer embedded in a customer-facing web app.",
+    thumbnail: "/images/work-3d-01.png",
+    gallery: [
+      { kind: "image", src: "/images/work-3d-01.png", alt: "Viewer hero" },
+      { kind: "image", src: "/images/work-3d-02.png", alt: "Material switcher" },
+      { kind: "image", src: "/images/work-uiux-01.png", alt: "Embedded in product page" },
+    ],
+    year: "2024",
+    context: "MetaShop AI · Product Builder",
+    accent: "#5eead4",
+    caseStudy: {
+      tagline: "MetaShop AI · 2024 · React, Three.js",
+      intro:
+        "A real-time 3D viewer built into MetaShop AI's first customer-facing product. Customers configure, rotate and interact with 3D items directly in the browser — no app, no plugin.",
+      problem:
+        "MetaShop's 3D pipeline produced beautiful assets, but they lived inside the team. Customers had no way to interact with them on their own. The company needed a self-service surface that proved the value of the underlying tech.",
+      process: [
+        "Mapped the customer journey from product page to configured model.",
+        "Prototyped the viewer in Three.js with material/variant switching.",
+        "Wired the viewer into a React + Tailwind product UI with embed-ready URLs.",
+        "Iterated on performance and controls with real client models.",
+      ],
+      tech: ["React", "Three.js", "TypeScript", "Tailwind CSS", "WebGL", "Vite"],
+      challenges: [
+        "Heavy Gaussian Splat assets needed to load without freezing the page.",
+        "Mobile devices had to render the same scenes as desktop without overheating.",
+        "Controls needed to feel native on touch and trackpad without separate code paths.",
+      ],
+      optimization: [
+        "Streamed and lazy-loaded model chunks; deferred non-critical textures.",
+        "Capped device pixel ratio and adapted shading quality per device tier.",
+        "Pooled materials and reused geometries to keep the GPU memory flat.",
+      ],
+      finalOutput:
+        "Shipped as MetaShop AI's first self-service product. The viewer became the centerpiece of demos and the default surface for delivering 3D work to clients.",
+      metrics: [
+        { label: "Self-service product", value: "1st" },
+        { label: "Client projects shipped on top", value: "50+" },
+        { label: "Equity awarded", value: "Yes" },
+      ],
+    },
+  },
+
+  /* 2 ─ Video to 3D / NeRF / Gaussian Splatting */
   {
     slug: "video-to-3d",
-    label: "Video to 3D",
-    tagline: "L&T Realty · Kesari Resort · Ultraviolette — live web viewers",
+    label: "Enterprise 3D Pipeline",
+    subtitle: "Video to 3D · NeRF · Gaussian Splatting",
+    summary:
+      "Rebuilt MetaShop AI's video-to-3D workflow into a production-grade pipeline used to deliver real estate and hospitality projects.",
+    thumbnail: "/images/work-v2three-01.png",
+    gallery: [
+      { kind: "image", src: "/images/work-v2three-01.png", alt: "Real estate splat capture" },
+      { kind: "image", src: "/images/work-v2three-02.png", alt: "NeRF scene" },
+      { kind: "image", src: "/images/work-v2three-03.png", alt: "Hospitality walkthrough" },
+      { kind: "image", src: "/images/work-v2three-04.png", alt: "Product capture" },
+    ],
+    year: "2023 — 2025",
+    context: "MetaShop AI · Pipeline & delivery lead",
     accent: "#34d399",
-    icon: "📹",
-    featured: true,
-    metric: "Live on web",
-    pieces: [
-      {
-        id: "v2three-01",
-        title: "L&T Realty — Evara Heights",
-        subtitle: "Gaussian Splat virtual tour",
-        description:
-          "L&T needed apartment buyers to feel the space before construction finished. We turned phone video footage into a photorealistic walkthrough that now runs in any browser — no app, no download, no compromise.",
-        thumbnail: "/images/work-v2three-01.png",
-        tools: ["Nerfstudio", "Gaussian Splatting", "BabylonJS"],
-        gallery: [
-          { kind: "image", src: "/images/work-v2three-01.png", alt: "Evara Heights walkthrough" },
-          { kind: "image", src: "/images/work-v2three-02.png", alt: "Detail view" },
-        ],
-        liveEmbedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      },
-      {
-        id: "v2three-02",
-        title: "NeRF Urban Scene Pipeline",
-        subtitle: "Research & development",
-        description:
-          "Built the internal R&D pipeline that takes raw video → trained NeRF → clean mesh export. The system that powers every client delivery at MetaShop AI.",
-        thumbnail: "/images/work-v2three-02.png",
-        tools: ["Nerfstudio", "Blender", "COLMAP"],
-        gallery: [
-          { kind: "image", src: "/images/work-v2three-02.png" },
-          { kind: "image", src: "/images/work-v2three-03.png" },
-        ],
-      },
-      {
-        id: "v2three-03",
-        title: "Kesari Resort — La Cabana",
-        subtitle: "Hospitality virtual tour",
-        description:
-          "Guests book resort rooms they've never visited. This Gaussian Splat tour lets them walk every corner of La Cabana from their phone before they arrive.",
-        thumbnail: "/images/work-v2three-03.png",
-        tools: ["Gaussian Splatting", "BabylonJS", "HTML/CSS"],
-        gallery: [
-          { kind: "image", src: "/images/work-v2three-03.png" },
-          { kind: "image", src: "/images/work-v2three-04.png" },
-        ],
-        liveEmbedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      },
-      {
-        id: "v2three-04",
-        title: "Product Scan — Photogrammetry Pipeline",
-        subtitle: "Small-object capture pipeline",
-        description:
-          "150+ photos → production-ready 3D model in under 4 hours. Built the capture-to-web pipeline so clients can list products with interactive 3D instead of flat images.",
-        thumbnail: "/images/work-v2three-04.png",
-        tools: ["Meshroom", "Blender", "Three.js"],
-        gallery: [{ kind: "image", src: "/images/work-v2three-04.png" }],
-      },
-      {
-        id: "v2three-05",
-        title: "Rejuve360 — Real Estate Tour",
-        subtitle: "Real estate walkthrough",
-        description:
-          "Full property walkthrough with dual navigation modes: flythrough for presentation, teleport for self-guided exploration. Delivered as an embeddable web URL.",
-        thumbnail: "/images/work-v2three-05.png",
-        tools: ["Gaussian Splatting", "BabylonJS", "WebGL"],
-        gallery: [
-          { kind: "image", src: "/images/work-v2three-05.png" },
-          { kind: "image", src: "/images/work-v2three-06.png" },
-        ],
-      },
-      {
-        id: "v2three-06",
-        title: "AR Product Viewer — WebXR",
-        subtitle: "WebXR-powered",
-        description:
-          "Point your phone at any surface, see the product at real scale with dimension labels overlaid in camera. No app install. Pure web, pure WebXR.",
-        thumbnail: "/images/work-v2three-06.png",
-        tools: ["model-viewer", "WebXR", "Three.js"],
-        gallery: [{ kind: "image", src: "/images/work-v2three-06.png" }],
-      },
-    ],
+    caseStudy: {
+      tagline: "MetaShop AI · NeRF, Gaussian Splatting, Nerfstudio",
+      intro:
+        "A research workflow turned into a repeatable production system: phone footage in, photoreal 3D scenes out — delivered to clients like L&T Realty and Kesari Weddings.",
+      problem:
+        "The early video-to-3D process was fragile, manual and slow. Each delivery was bespoke, results were inconsistent, and the team couldn't promise timelines to enterprise clients.",
+      process: [
+        "Audited every step of the existing capture-to-delivery flow.",
+        "Standardised capture, training and cleanup using Nerfstudio and Gaussian Splatting.",
+        "Built reusable templates for scene staging, navigation modes and web delivery.",
+        "Onboarded enterprise clients through structured pilots before scaling.",
+      ],
+      tech: ["Nerfstudio", "Gaussian Splatting", "NeRF", "COLMAP", "Blender", "BabylonJS"],
+      challenges: [
+        "Real estate scenes are large and noisy — training quality varied wildly.",
+        "Web delivery needed to look identical to internal previews.",
+        "Each client had different navigation expectations (flythrough vs. teleport).",
+      ],
+      optimization: [
+        "Tuned training presets per scene type (interior, exterior, product).",
+        "Compressed splat assets and standardized BabylonJS web viewers.",
+        "Templated dual-mode navigation so projects could ship in days, not weeks.",
+      ],
+      finalOutput:
+        "An enterprise-grade pipeline that powered 50+ client deliveries — including L&T Realty and Kesari Weddings — without growing the team headcount proportionally.",
+      metrics: [
+        { label: "Client deliveries", value: "50+" },
+        { label: "Manual ops removed", value: "70%" },
+        { label: "Output throughput", value: "3×" },
+      ],
+    },
   },
 
-  /* ▸ 3D WORK */
+  /* 3 ─ AI Workflows & Automation */
   {
-    slug: "3d",
-    label: "3D Work",
-    tagline: "Byju's · MetaShop AI · freelance client work",
-    accent: "#5eead4",
-    icon: "🧊",
-    metric: "4+ years",
-    pieces: [
-      {
-        id: "3d-01",
-        title: "MetaShop 3D Viewer",
-        subtitle: "Interactive product visualisation",
-        description:
-          "The viewer that powers MetaShop AI's client demos. Real-time orbit, zoom, material switching — built to handle heavy Gaussian Splat models without dropping frames.",
-        thumbnail: "/images/work-3d-01.png",
-        tools: ["Three.js", "React", "WebGL", "Blender"],
-        gallery: [
-          { kind: "image", src: "/images/work-3d-01.png", alt: "Viewer hero" },
-          { kind: "image", src: "/images/work-3d-02.png", alt: "Detail" },
-        ],
-        externalUrl: "https://sketchfab.com",
-      },
-      {
-        id: "3d-02",
-        title: "Fantasy Environment",
-        subtitle: "Game-ready scene",
-        description:
-          "Stylised low-poly environment built in Blender with baked lighting and PBR materials. Optimised for real-time rendering.",
-        thumbnail: "/images/work-3d-02.png",
-        tools: ["Blender", "Substance Painter", "Unity"],
-        gallery: [
-          { kind: "image", src: "/images/work-3d-02.png" },
-          { kind: "image", src: "/images/work-3d-03.png" },
-        ],
-      },
-      {
-        id: "3d-03",
-        title: "Sci-Fi Character",
-        subtitle: "High-poly sculpt & retopo",
-        description:
-          "Full character pipeline — sculpt in ZBrush, retopology, UV mapping, texturing, and final render.",
-        thumbnail: "/images/work-3d-03.png",
-        tools: ["ZBrush", "Blender", "Substance Painter", "Marvelous Designer"],
-        gallery: [
-          { kind: "image", src: "/images/work-3d-03.png" },
-          { kind: "image", src: "/images/work-3d-04.png" },
-        ],
-      },
-      {
-        id: "3d-04",
-        title: "Product Visualization",
-        subtitle: "Studio-quality render",
-        description:
-          "Photorealistic product renders for e-commerce catalogues — lighting, staging and post-production.",
-        thumbnail: "/images/work-3d-04.png",
-        tools: ["Blender", "Cycles", "Photoshop"],
-        gallery: [
-          { kind: "image", src: "/images/work-3d-04.png" },
-          { kind: "image", src: "/images/work-3d-05.png" },
-        ],
-      },
-      {
-        id: "3d-05",
-        title: "Architectural Walkthrough",
-        subtitle: "Real estate interior",
-        description:
-          "Interactive architectural walkthrough for a luxury apartment project. Delivered as a web-based experience.",
-        thumbnail: "/images/work-3d-05.png",
-        tools: ["3ds Max", "V-Ray", "Unreal Engine"],
-        gallery: [
-          { kind: "image", src: "/images/work-3d-05.png" },
-          { kind: "image", src: "/images/work-3d-06.png" },
-        ],
-      },
-      {
-        id: "3d-06",
-        title: "Vehicle Concept",
-        subtitle: "Hard-surface modelling",
-        description:
-          "Concept vehicle designed from scratch — hard-surface modelling with detailed mechanical parts.",
-        thumbnail: "/images/work-3d-06.png",
-        tools: ["Blender", "Substance Painter", "KeyShot"],
-        gallery: [{ kind: "image", src: "/images/work-3d-06.png" }],
-      },
+    slug: "ai-workflows",
+    label: "Operations Automation",
+    subtitle: "AI Workflows · Process Design",
+    summary:
+      "Designed the file tracking and workflow automation that took the 3D pipeline from artisan work to operations infrastructure.",
+    thumbnail: "/images/work-uiux-02.png",
+    gallery: [
+      { kind: "image", src: "/images/work-uiux-02.png", alt: "Workflow dashboard" },
+      { kind: "image", src: "/images/work-uiux-05.png", alt: "Tracking system" },
     ],
+    year: "2023 — 2024",
+    context: "MetaShop AI · Creative Operations Lead",
+    accent: "#fb923c",
+    caseStudy: {
+      tagline: "MetaShop AI · AI-assisted workflow design",
+      intro:
+        "A backstage layer of trackers, automations and AI-assisted steps that removed the busywork from a 3D production team and let them deliver three times the output.",
+      problem:
+        "The team spent more time chasing files, statuses and handoffs than producing 3D work. Manual coordination capped how many projects could ship at once.",
+      process: [
+        "Mapped every recurring task across capture, training, cleanup and delivery.",
+        "Identified the repetitive 70% that didn't need a human in the loop.",
+        "Designed file tracking, status automation and AI-assisted review steps.",
+        "Rolled it out as a single working surface for the team.",
+      ],
+      tech: ["Workflow design", "AI-assisted tools", "Process automation", "Internal tooling"],
+      challenges: [
+        "Existing workflows were undocumented and lived in people's heads.",
+        "Adoption needed to feel like less work, not more.",
+        "Automations had to fail safely — no silently corrupted client deliveries.",
+      ],
+      optimization: [
+        "Standardised file naming and folder conventions before automating anything.",
+        "Layered automation incrementally so the team could trust each step.",
+        "Built status surfaces so operations could see bottlenecks at a glance.",
+      ],
+      finalOutput:
+        "A quietly load-bearing system that cut 70% of manual operations and let the same team scale output 3× while improving delivery consistency.",
+      metrics: [
+        { label: "Manual operations removed", value: "70%" },
+        { label: "Output scaled", value: "3×" },
+        { label: "Headcount added", value: "0" },
+      ],
+    },
   },
 
-  /* ▸ MOTION GRAPHICS */
+  /* 4 ─ Motion Graphics */
   {
     slug: "motion-graphics",
-    label: "Motion Graphics Work",
-    tagline: "Byju's · 100+ modules · 40% faster pipeline",
+    label: "STEM Content System",
+    subtitle: "Motion Graphics · Educational",
+    summary:
+      "A reusable animation system at Byju's that powered 100+ STEM modules consumed by millions of students.",
+    thumbnail: "/images/work-mograph-01.png",
+    gallery: [
+      { kind: "image", src: "/images/work-mograph-01.png", alt: "STEM module" },
+      { kind: "image", src: "/images/work-mograph-02.png", alt: "Title sequence" },
+      { kind: "image", src: "/images/work-mograph-06.png", alt: "Kinetic typography" },
+    ],
+    year: "2021 — 2023",
+    context: "Byju's · Motion Graphics & 3D",
     accent: "#c084fc",
-    icon: "🎬",
-    metric: "100+ modules",
-    pieces: [
-      {
-        id: "mograph-01",
-        title: "Educational STEM Module",
-        subtitle: "Byju's — learning content",
-        description:
-          "Byju's needed STEM content that held a 12-year-old's attention for 8 minutes. Designed a reusable animation template system — 40% faster per module, consistent across a 15-person team.",
-        thumbnail: "/images/work-mograph-01.png",
-        tools: ["After Effects", "Blender", "Premiere Pro"],
-        gallery: [
-          { kind: "image", src: "/images/work-mograph-01.png" },
-          { kind: "image", src: "/images/work-mograph-02.png" },
-        ],
-      },
-      {
-        id: "mograph-02",
-        title: "Title Sequence Design",
-        subtitle: "Broadcast graphics",
-        description:
-          "Cinematic title sequence with 3D type, particle systems and seamless transitions.",
-        thumbnail: "/images/work-mograph-02.png",
-        tools: ["After Effects", "Cinema 4D", "Premiere Pro"],
-        gallery: [
-          { kind: "image", src: "/images/work-mograph-02.png" },
-          { kind: "image", src: "/images/work-mograph-03.png" },
-        ],
-      },
-      {
-        id: "mograph-03",
-        title: "Logo Reveal Animation",
-        subtitle: "Brand identity motion",
-        description:
-          "Dynamic logo animation with liquid morph effects. Delivered in multiple formats for social, web and broadcast.",
-        thumbnail: "/images/work-mograph-03.png",
-        tools: ["After Effects", "Illustrator"],
-        gallery: [{ kind: "image", src: "/images/work-mograph-03.png" }],
-      },
-      {
-        id: "mograph-04",
-        title: "Explainer Video",
-        subtitle: "SaaS product walkthrough",
-        description:
-          "2-minute animated explainer covering product features, user flow and CTA — designed for landing page embed.",
-        thumbnail: "/images/work-mograph-04.png",
-        tools: ["After Effects", "Figma", "Lottie"],
-        gallery: [
-          { kind: "image", src: "/images/work-mograph-04.png" },
-          { kind: "image", src: "/images/work-mograph-05.png" },
-        ],
-      },
-      {
-        id: "mograph-05",
-        title: "Social Media Pack",
-        subtitle: "Animated stories & reels",
-        description:
-          "Template-based motion graphics pack for Instagram stories and reels. 20+ templates with editable text layers.",
-        thumbnail: "/images/work-mograph-05.png",
-        tools: ["After Effects", "Canva", "Premiere Pro"],
-        gallery: [{ kind: "image", src: "/images/work-mograph-05.png" }],
-      },
-      {
-        id: "mograph-06",
-        title: "Kinetic Typography",
-        subtitle: "Spoken-word visual",
-        description:
-          "Bold kinetic type animation synced to audio — clean transitions, impactful timing.",
-        thumbnail: "/images/work-mograph-06.png",
-        tools: ["After Effects", "Illustrator"],
-        gallery: [
-          { kind: "image", src: "/images/work-mograph-06.png" },
-          { kind: "image", src: "/images/work-mograph-01.png" },
-        ],
-      },
-    ],
-  },
-
-  /* ▸ UI / UX */
-  {
-    slug: "ui-ux",
-    label: "UI UX Work",
-    tagline: "MetaShop AI · e-commerce · SaaS dashboards",
-    accent: "#fb923c",
-    icon: "🎨",
-    metric: "3× demos",
-    pieces: [
-      {
-        id: "uiux-01",
-        title: "MetaShop AI Website",
-        subtitle: "Product marketing site",
-        description:
-          "MetaShop AI had a complex AI + 3D product that nobody outside the team understood. This site made it legible — and tripled demo request volume in the first month.",
-        thumbnail: "/images/work-uiux-01.png",
-        tools: ["Figma", "React", "Tailwind CSS"],
-        gallery: [
-          { kind: "image", src: "/images/work-uiux-01.png" },
-          { kind: "image", src: "/images/work-uiux-02.png" },
-        ],
-        externalUrl: "https://metashop.ai",
-        caseStudy: {
-          problem:
-            "Early-stage startup needed a website that explains a complex 3D/AI product simply while driving demo requests.",
-          process:
-            "Competitive audit → user flow mapping → wireframes → hi-fi mockups → React build with iterative client feedback.",
-          solution:
-            "Minimal, scroll-driven narrative with an embedded 3D viewer as the centrepiece — letting the product speak for itself.",
-          results: "3× increase in demo requests within the first month of launch.",
-          wireframes: ["/images/work-uiux-03.png"],
-          finalScreens: ["/images/work-uiux-01.png", "/images/work-uiux-02.png"],
-        },
-      },
-      {
-        id: "uiux-02",
-        title: "Analytics Dashboard",
-        subtitle: "B2B SaaS interface",
-        description:
-          "Data-dense dashboard with customisable widgets, dark theme, real-time charts and role-based views.",
-        thumbnail: "/images/work-uiux-02.png",
-        tools: ["Figma", "Design System", "Recharts"],
-        gallery: [
-          { kind: "image", src: "/images/work-uiux-02.png" },
-          { kind: "image", src: "/images/work-uiux-03.png" },
-        ],
-        caseStudy: {
-          problem:
-            "Users struggled with information overload — too many metrics, no hierarchy, slow page loads.",
-          process:
-            "Stakeholder interviews → card sorting → progressive disclosure wireframes → prototype testing with 8 users.",
-          solution:
-            "Widget-based layout with a smart default view and user-customisable arrangements. Reduced cognitive load by 60%.",
-        },
-      },
-      {
-        id: "uiux-03",
-        title: "Mobile App — Fitness Tracker",
-        subtitle: "Consumer health app",
-        description:
-          "Clean, gesture-driven fitness app with workout logging, progress charts and social features.",
-        thumbnail: "/images/work-uiux-03.png",
-        tools: ["Figma", "Protopie", "Lottie"],
-        gallery: [
-          { kind: "image", src: "/images/work-uiux-03.png" },
-          { kind: "image", src: "/images/work-uiux-04.png" },
-        ],
-      },
-      {
-        id: "uiux-04",
-        title: "E-Commerce Redesign",
-        subtitle: "Conversion optimisation",
-        description:
-          "Cart abandonment at 78%. Session recordings showed users bailing at the address step. Redesigned checkout to 3-step with progress indicator and guest option. Abandonment dropped to 52%.",
-        thumbnail: "/images/work-uiux-04.png",
-        tools: ["Figma", "Hotjar", "Google Analytics"],
-        gallery: [
-          { kind: "image", src: "/images/work-uiux-04.png" },
-          { kind: "image", src: "/images/work-uiux-05.png" },
-        ],
-        caseStudy: {
-          problem: "Cart abandonment at 78%. Users complained about confusing checkout flow and lack of trust signals.",
-          process: "Heuristic review → Hotjar session analysis → checkout funnel redesign → usability testing.",
-          solution:
-            "Simplified 3-step checkout with progress indicator, trust badges and guest checkout option.",
-          results: "Cart abandonment reduced to 52% — a 33% improvement.",
-        },
-      },
-      {
-        id: "uiux-05",
-        title: "Design System",
-        subtitle: "Component library",
-        description:
-          "Scalable design system with tokens, components, patterns and documentation. Used across 4 product teams.",
-        thumbnail: "/images/work-uiux-05.png",
-        tools: ["Figma", "Storybook", "Tokens Studio"],
-        gallery: [
-          { kind: "image", src: "/images/work-uiux-05.png" },
-          { kind: "image", src: "/images/work-uiux-06.png" },
-        ],
-      },
-      {
-        id: "uiux-06",
-        title: "Landing Page — SaaS",
-        subtitle: "Conversion-focused design",
-        description:
-          "High-converting landing page with scroll animations, social proof section and multi-step CTA form.",
-        thumbnail: "/images/work-uiux-06.png",
-        tools: ["Figma", "Webflow", "GSAP"],
-        gallery: [{ kind: "image", src: "/images/work-uiux-06.png" }],
-      },
-    ],
+    caseStudy: {
+      tagline: "Byju's · After Effects, Blender",
+      intro:
+        "A template-driven system for STEM educational content — designed to keep quality consistent across a 15+ designer team while shipping at the pace Byju's needed.",
+      problem:
+        "STEM modules were being authored from scratch every time. Quality varied, timelines slipped, and the design team couldn't keep up with the content roadmap.",
+      process: [
+        "Studied the highest-performing modules to extract recurring patterns.",
+        "Designed reusable scene, transition and typography systems.",
+        "Documented the system so the wider team could ship without one-on-one reviews.",
+        "Iterated based on production feedback over multiple content cycles.",
+      ],
+      tech: ["After Effects", "Blender", "Premiere Pro", "Cinema 4D"],
+      challenges: [
+        "Content reached millions of students — visual quality couldn't drop.",
+        "The team was distributed across skill levels and software preferences.",
+        "Templates had to feel flexible, not constraining, for senior designers.",
+      ],
+      optimization: [
+        "Built modular animation rigs that could be re-skinned per topic.",
+        "Standardized sound, pacing and typography to a single design language.",
+        "Created a starter kit that cut per-module setup time significantly.",
+      ],
+      finalOutput:
+        "A working content system delivering 100+ educational modules. Recognised internally with the Best Employee Award three times among 400+ designers.",
+      metrics: [
+        { label: "Modules shipped", value: "100+" },
+        { label: "Pipeline efficiency", value: "+40%" },
+        { label: "Best Employee Awards", value: "3×" },
+      ],
+    },
   },
 ];
 
 /* ── helpers ──────────────────────────────── */
 export const getCategoryBySlug = (slug: string) =>
   workCategories.find((c) => c.slug === slug);
-
-export const getPieceById = (categorySlug: string, pieceId: string) => {
-  const cat = getCategoryBySlug(categorySlug);
-  return cat?.pieces.find((p) => p.id === pieceId);
-};
