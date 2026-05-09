@@ -8,30 +8,6 @@ export type MediaItem =
   | { kind: "video"; src: string; poster?: string; caption?: string }
   | { kind: "embed"; src: string; title?: string; caption?: string };
 
-<<<<<<< HEAD
-export interface WorkPiece {
-  video?: string;
-  id: string;
-  title: string;
-  subtitle?: string;
-  description: string;
-  thumbnail: string;
-  tools: string[];
-  gallery: MediaItem[];
-  /** Optional external link (Sketchfab, Behance, live site …) */
-  externalUrl?: string;
-  /** Optional live embed URL (BabylonJS viewer, YouTube, etc.) */
-  liveEmbedUrl?: string;
-  /** Only for UI/UX — case-study fields */
-  caseStudy?: {
-    problem: string;
-    process: string;
-    solution: string;
-    results?: string;
-    wireframes?: string[];
-    finalScreens?: string[];
-  };
-=======
 export interface CaseStudy {
   /** Short marketing summary shown on the card */
   tagline: string;
@@ -46,7 +22,6 @@ export interface CaseStudy {
   metrics: { label: string; value: string }[];
   /** Optional embeddable breakdown video (YouTube/Vimeo embed URL) */
   breakdownVideo?: string;
->>>>>>> 0e6430f918152b6a42df549e698a2796a95d1f20
 }
 
 export interface WorkCategory {
@@ -275,17 +250,3 @@ export const workCategories: WorkCategory[] = [
 /* ── helpers ──────────────────────────────── */
 export const getCategoryBySlug = (slug: string) =>
   workCategories.find((c) => c.slug === slug);
-<<<<<<< HEAD
-
-export const getPieceById = (categorySlug: string, pieceId: string) => {
-  const cat = getCategoryBySlug(categorySlug);
-  return cat?.pieces.find((p) => p.id === pieceId);
-};
-
-export const archiveWorks = [
-  { label: "Early 3D Explorations", link: "#" },
-  { label: "Freelance Branding Concepts", link: "#" },
-  { label: "College Motion Graphics", link: "#" }
-];
-=======
->>>>>>> 0e6430f918152b6a42df549e698a2796a95d1f20
