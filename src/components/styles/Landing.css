@@ -392,15 +392,29 @@
   }
   .landing-intro {
     top: 50%;
-    left: auto;
-    right: 60%;
+    left: 0;
+    right: auto;
     transform: translateY(-50%);
+    max-width: 440px;
   }
   .landing-info {
-    bottom: auto;
-    top: 60%;
-    transform: translateY(-50%);
-    left: 62%;
-    right: auto;
+    top: auto;
+    bottom: 8%;
+    left: auto;
+    right: 0;
+    transform: none;
+    max-width: 260px;
+    text-align: right;
+  }
+  .landing-info-list {
+    align-items: flex-end;
+  }
+  .landing-info-list li {
+    padding-left: 0;
+    padding-right: 18px;
+  }
+  .landing-info-list li::before {
+    left: auto;
+    right: 0;
   }
 }
