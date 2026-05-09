@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-/* ═══════════════════════════════════════════════════════
-   WORK SECTION
-   Desktop: 2-col card grid  |  Mobile: single-col cards
-═══════════════════════════════════════════════════════ */
-
-/* ── Section shell ───────────────────────────────────── */
-.work-section {
-  background: #0d0d12;
-  padding: 80px 60px 100px;
-  position: relative;
-=======
 /* ════════════════════════════════════════════════
    WORK — Framer-style 2-column card grid
    ════════════════════════════════════════════════ */
@@ -19,26 +7,10 @@
   background: #0a0a0a;
   color: #eae5ec;
   padding: 140px 0 160px;
->>>>>>> 0e6430f918152b6a42df549e698a2796a95d1f20
   overflow: hidden;
   z-index: 1;
 }
 
-<<<<<<< HEAD
-@media (max-width: 768px) {
-  .work-section {
-    padding: 56px 20px 80px;
-  }
-}
-
-/* ── Kicker ──────────────────────────────────────────── */
-.work-kicker {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-=======
 .sw-section::before {
   content: "";
   position: absolute;
@@ -341,7 +313,6 @@
   .sw-card-cta { width: 48px; height: 48px; font-size: 18px; }
   .sw-cta-wrap { margin-top: 60px; }
   .sw-cta { padding: 16px 28px; font-size: 12px; }
->>>>>>> 0e6430f918152b6a42df549e698a2796a95d1f20
 }
 
 .work-kicker span {
