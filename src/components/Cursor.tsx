@@ -61,9 +61,12 @@ const Cursor = () => {
         if (element.dataset.cursor === "disable") {
           cursor.classList.add("cursor-disable");
         }
+        if (element.dataset.cursor === "view") {
+          cursor.classList.add("cursor-view");
+        }
       };
       const out = () => {
-        cursor.classList.remove("cursor-disable", "cursor-icons");
+        cursor.classList.remove("cursor-disable", "cursor-icons", "cursor-view");
         hover = false;
       };
       element.addEventListener("mouseover", over);
@@ -83,7 +86,11 @@ const Cursor = () => {
 
   if (!hasFinePointer) return null;
 
-  return <div className="cursor-main" ref={cursorRef}></div>;
+  return (
+    <div className="cursor-main" ref={cursorRef}>
+      <span className="cursor-label">View</span>
+    </div>
+  );
 };
 
 export default Cursor;
