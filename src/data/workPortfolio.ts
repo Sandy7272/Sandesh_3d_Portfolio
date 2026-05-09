@@ -250,17 +250,3 @@ export const workCategories: WorkCategory[] = [
 /* ── helpers ──────────────────────────────── */
 export const getCategoryBySlug = (slug: string) =>
   workCategories.find((c) => c.slug === slug);
-<<<<<<< HEAD
-
-export const getPieceById = (categorySlug: string, pieceId: string) => {
-  const cat = getCategoryBySlug(categorySlug);
-  return cat?.pieces.find((p) => p.id === pieceId);
-};
-
-export const archiveWorks = [
-  { label: "Early 3D Explorations", link: "#" },
-  { label: "Freelance Branding Concepts", link: "#" },
-  { label: "College Motion Graphics", link: "#" }
-];
-=======
->>>>>>> 0e6430f918152b6a42df549e698a2796a95d1f20
