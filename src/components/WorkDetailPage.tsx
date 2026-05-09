@@ -1,253 +1,42 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { MdClose, MdArrowOutward, MdArrowBack, MdArrowForward } from "react-icons/md";
+import { MdClose, MdArrowBack } from "react-icons/md";
 import { gsap } from "gsap";
-import type { WorkCategory, WorkPiece, MediaItem } from "../data/workPortfolio";
+import type { WorkCategory, MediaItem } from "../data/workPortfolio";
 import { workCategories, getCategoryBySlug } from "../data/workPortfolio";
 import "./styles/WorkDetailPage.css";
 
-/* ── tiny media renderer ────────────────── */
-const Media = ({ media, className = "" }: { media: MediaItem; className?: string }) => {
+const Media = ({ media }: { media: MediaItem }) => {
   if (media.kind === "video")
     return (
       <video
-        className={`wdp-media ${className}`}
+        className="wdp-media"
         src={media.src}
         poster={media.poster}
-        autoPlay muted playsInline loop controls={false}
+        autoPlay
+        muted
+        playsInline
+        loop
+        controls={false}
       />
     );
   if (media.kind === "embed")
     return (
       <iframe
-        className={`wdp-media wdp-embed ${className}`}
+        className="wdp-media wdp-embed"
         src={media.src}
         title={media.title ?? ""}
         allow="autoplay; fullscreen; xr-spatial-tracking"
         allowFullScreen
       />
     );
-  return <img className={`wdp-media ${className}`} src={media.src} alt={media.alt ?? ""} loading="lazy" />;
-};
-
-/* ── Lightbox ───────────────────────────── */
-const Lightbox = ({
-  items, startIdx, onClose,
-}: { items: MediaItem[]; startIdx: number; onClose: () => void }) => {
-  const [idx, setIdx] = useState(startIdx);
-  const ref = useRef<HTMLDivElement>(null);
-  const prev = () => setIdx((i) => (i === 0 ? items.length - 1 : i - 1));
-  const next = () => setIdx((i) => (i === items.length - 1 ? 0 : i + 1));
-
-  useEffect(() => {
-    if (ref.current) {
-      gsap.fromTo(ref.current, { opacity: 0, scale: 0.95 }, {
-        opacity: 1, scale: 1, duration: 0.3, ease: "power3.out",
-      });
-    }
-  }, []);
-
-  const handleClose = useCallback(() => {
-    if (ref.current) {
-      gsap.to(ref.current, {
-        opacity: 0, scale: 0.95, duration: 0.2, ease: "power2.in",
-        onComplete: onClose,
-      });
-    } else {
-      onClose();
-    }
-  }, [onClose]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [handleClose]);
-
   return (
-    <div className="wdp-lightbox" ref={ref} onClick={handleClose}>
-      <div className="wdp-lightbox-inner" onClick={(e) => e.stopPropagation()}>
-        <Media media={items[idx]} className="wdp-lightbox-img" />
-        {items.length > 1 && (
-          <>
-            <button className="wdp-lb-arrow wdp-lb-prev" onClick={prev}><MdArrowBack /></button>
-            <button className="wdp-lb-arrow wdp-lb-next" onClick={next}><MdArrowForward /></button>
-          </>
-        )}
-        <button className="wdp-lb-close" onClick={handleClose}><MdClose /></button>
-        <div className="wdp-lb-counter">{idx + 1} / {items.length}</div>
-      </div>
-    </div>
+    <img className="wdp-media" src={media.src} alt={media.alt ?? ""} loading="lazy" />
   );
 };
 
-/* ── Single piece card ──────────────────── */
-const PieceCard = ({
-  piece, accent, onOpenLightbox, style
-}: {
-  piece: WorkPiece; accent: string;
-  onOpenLightbox: (items: MediaItem[], idx: number) => void;
-  style?: React.CSSProperties;
-}) => {
-  const [expanded, setExpanded] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const caseRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (expanded && caseRef.current) {
-      gsap.fromTo(caseRef.current,
-        { opacity: 0, y: 20, height: 0 },
-        { opacity: 1, y: 0, height: "auto", duration: 0.45, ease: "power3.out" }
-      );
-    }
-  }, [expanded]);
-
-  return (
-    <div className={`wdp-piece ${expanded ? "wdp-piece--expanded" : ""}`} style={style}>
-      {piece.liveEmbedUrl && (
-        <div className="wdp-live-embed">
-          <div className="wdp-live-badge">● LIVE DEMO</div>
-          <iframe
-            src={piece.liveEmbedUrl}
-            allow="autoplay; fullscreen; xr-spatial-tracking"
-            allowFullScreen
-            className="wdp-embed"
-          />
-        </div>
-      )}
-
-      <div
-        className={`wdp-piece-thumb ${!imgLoaded ? "loading" : ""}`}
-        onClick={() => onOpenLightbox(piece.gallery.length ? piece.gallery : [{ kind: "image", src: piece.thumbnail }], 0)}
-      >
-        <img
-          src={piece.thumbnail}
-          alt={piece.title}
-          loading="lazy"
-          onLoad={() => setImgLoaded(true)}
-        />
-        <div className="wdp-piece-overlay">
-          <span>View Gallery</span>
-        </div>
-      </div>
-
-      <div className="wdp-piece-body">
-        {piece.subtitle && <p className="wdp-piece-subtitle">{piece.subtitle}</p>}
-        <h3 className="wdp-piece-title">{piece.title}</h3>
-        <p className="wdp-piece-desc">{piece.description}</p>
-
-        <div className="wdp-piece-tools">
-          {piece.tools.map((t) => (
-            <span className="wdp-tool-tag" key={t} style={{ borderColor: `${accent}44` }}>
-              {t}
-            </span>
-          ))}
-        </div>
-
-        {piece.caseStudy && (
-          <button
-            className="wdp-case-toggle"
-            onClick={() => setExpanded(!expanded)}
-          >
-            {expanded ? "Case Study ↑" : "Case Study ↓"}
-          </button>
-        )}
-
-        {expanded && piece.caseStudy && (
-          <div className="wdp-case-study" ref={caseRef}>
-            <div className="wdp-case-block">
-              <h4>Problem</h4>
-              <p>{piece.caseStudy.problem}</p>
-            </div>
-            <div className="wdp-case-block">
-              <h4>Process</h4>
-              <p>{piece.caseStudy.process}</p>
-            </div>
-            <div className="wdp-case-block">
-              <h4>Solution</h4>
-              <p>{piece.caseStudy.solution}</p>
-            </div>
-            {piece.caseStudy.results && (
-              <div className="wdp-case-block wdp-case-results">
-                <h4>Results</h4>
-                <p>{piece.caseStudy.results}</p>
-              </div>
-            )}
-            {piece.caseStudy.wireframes && piece.caseStudy.wireframes.length > 0 && (
-              <div className="wdp-case-images">
-                <h4>Wireframes</h4>
-                <div className="wdp-case-img-row">
-                  {piece.caseStudy.wireframes.map((src, i) => (
-                    <img key={i} src={src} alt={`Wireframe ${i + 1}`} loading="lazy"
-                      onClick={() => onOpenLightbox(piece.caseStudy!.wireframes!.map(s => ({ kind: "image" as const, src: s })), i)} />
-                  ))}
-                </div>
-              </div>
-            )}
-            {piece.caseStudy.finalScreens && piece.caseStudy.finalScreens.length > 0 && (
-              <div className="wdp-case-images">
-                <h4>Final Designs</h4>
-                <div className="wdp-case-img-row">
-                  {piece.caseStudy.finalScreens.map((src, i) => (
-                    <img key={i} src={src} alt={`Final ${i + 1}`} loading="lazy"
-                      onClick={() => onOpenLightbox(piece.caseStudy!.finalScreens!.map(s => ({ kind: "image" as const, src: s })), i)} />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {piece.gallery.length > 1 && (
-          <div className="wdp-piece-gallery-row">
-            {piece.gallery.slice(0, 4).map((m, i) => (
-              <div
-                className="wdp-piece-gallery-thumb"
-                key={i}
-                onClick={() => onOpenLightbox(piece.gallery, i)}
-              >
-                {m.kind === "image" ? (
-                  <img src={m.src} alt={m.alt ?? ""} loading="lazy" />
-                ) : m.kind === "video" ? (
-                  <video src={m.src} poster={m.poster} muted />
-                ) : null}
-              </div>
-            ))}
-            {piece.gallery.length > 4 && (
-              <div
-                className="wdp-piece-gallery-thumb wdp-piece-gallery-more"
-                onClick={() => onOpenLightbox(piece.gallery, 4)}
-              >
-                +{piece.gallery.length - 4}
-              </div>
-            )}
-          </div>
-        )}
-
-        {piece.externalUrl && (
-          <a
-            href={piece.externalUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="wdp-piece-ext"
-            style={{ borderColor: `${accent}44`, color: accent }}
-          >
-            View Live <MdArrowOutward />
-          </a>
-        )}
-      </div>
-    </div>
-  );
-};
-
-/* ── MAIN PAGE ──────────────────────────── */
 const WorkDetailPage = () => {
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const [lightbox, setLightbox] = useState<{ items: MediaItem[]; idx: number } | null>(null);
   const pageRef = useRef<HTMLDivElement>(null);
   const savedScrollY = useRef(0);
 
@@ -255,44 +44,32 @@ const WorkDetailPage = () => {
     ? getCategoryBySlug(activeSlug)
     : undefined;
 
-  /* GSAP enter animation */
+  // Open animation
   useEffect(() => {
     if (!activeSlug || !pageRef.current) return;
-
     const overlay = pageRef.current;
-    const header = overlay.querySelector(".wdp-header");
-    const pieces = overlay.querySelectorAll(".wdp-piece");
-
-    // Kill any existing CSS animation
+    const sections = overlay.querySelectorAll(".wdp-reveal");
     overlay.style.animation = "none";
-
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-    tl.fromTo(overlay,
-      { opacity: 0, y: 60, scale: 0.97 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.55 }
+    tl.fromTo(
+      overlay,
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.5 }
     );
-
-    if (header) {
-      tl.fromTo(header,
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.4 },
-        "-=0.3"
+    if (sections.length) {
+      tl.fromTo(
+        sections,
+        { opacity: 0, y: 28 },
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.08 },
+        "-=0.25"
       );
     }
-
-    if (pieces.length) {
-      tl.fromTo(pieces,
-        { opacity: 0, y: 40, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.06 },
-        "-=0.2"
-      );
-    }
-
-    return () => { tl.kill(); };
+    return () => {
+      tl.kill();
+    };
   }, [activeSlug]);
 
-  /* Listen for open event from Work cards */
+  // Open event
   useEffect(() => {
     const handler = (e: Event) => {
       const slug = (e as CustomEvent).detail;
@@ -300,31 +77,28 @@ const WorkDetailPage = () => {
       setIsClosing(false);
       setActiveSlug(slug);
       document.body.style.overflow = "hidden";
+      pageRef.current?.scrollTo({ top: 0 });
     };
     window.addEventListener("open-work-detail", handler);
     return () => window.removeEventListener("open-work-detail", handler);
   }, []);
 
-  /* GSAP close animation */
   const close = useCallback(() => {
     if (isClosing) return;
     setIsClosing(true);
-
     if (pageRef.current) {
       gsap.to(pageRef.current, {
         opacity: 0,
-        y: 40,
-        scale: 0.97,
-        duration: 0.35,
+        y: 30,
+        duration: 0.32,
         ease: "power2.in",
         onComplete: () => {
           setActiveSlug(null);
           setIsClosing(false);
           document.body.style.overflow = "";
-          window.location.hash = "";
-          requestAnimationFrame(() => {
-            window.scrollTo({ top: savedScrollY.current, behavior: "instant" as ScrollBehavior });
-          });
+          requestAnimationFrame(() =>
+            window.scrollTo({ top: savedScrollY.current, behavior: "instant" as ScrollBehavior })
+          );
         },
       });
     } else {
@@ -334,33 +108,26 @@ const WorkDetailPage = () => {
     }
   }, [isClosing]);
 
-  /* Tab switch animation */
-  const switchCategory = useCallback((slug: string) => {
-    if (slug === activeSlug) return;
-    const grid = pageRef.current?.querySelector(".wdp-grid");
-    if (grid) {
-      gsap.to(grid, {
-        opacity: 0, y: 20, duration: 0.2, ease: "power2.in",
-        onComplete: () => {
-          setActiveSlug(slug);
-          pageRef.current?.scrollTo({ top: 0 });
-          // The enter effect re-triggers via the useEffect on activeSlug
-        },
-      });
-    } else {
+  const switchCategory = useCallback(
+    (slug: string) => {
+      if (slug === activeSlug) return;
       setActiveSlug(slug);
-    }
-  }, [activeSlug]);
+      pageRef.current?.scrollTo({ top: 0 });
+    },
+    [activeSlug]
+  );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !lightbox) close();
+      if (e.key === "Escape") close();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [close, lightbox]);
+  }, [close]);
 
   if (!activeSlug || !category) return null;
+  const cs = category.caseStudy;
+  const related = workCategories.filter((c) => c.slug !== activeSlug).slice(0, 3);
 
   return (
     <div
@@ -370,57 +137,140 @@ const WorkDetailPage = () => {
     >
       <header className="wdp-header">
         <button className="wdp-back" onClick={close} data-cursor="disable">
-          <MdArrowBack /> <span>Back</span>
+          <MdArrowBack /> <span>Back to Work</span>
         </button>
-
-        <div className="wdp-header-cat">
-          <span className="wdp-header-cat-icon">{category.icon}</span>
-          <span className="wdp-header-cat-label">{category.label}</span>
+        <div className="wdp-header-meta">
+          <span className="wdp-header-cat-label">{category.subtitle}</span>
         </div>
-
-        <nav className="wdp-tabs">
-          {workCategories.map((c) => (
-            <button
-              key={c.slug}
-              className={`wdp-tab ${c.slug === activeSlug ? "wdp-tab--active" : ""}`}
-              onClick={() => switchCategory(c.slug)}
-              style={
-                c.slug === activeSlug
-                  ? { borderColor: c.accent, color: c.accent }
-                  : undefined
-              }
-              data-cursor="disable"
-            >
-              <span className="wdp-tab-icon">{c.icon}</span>
-              <span className="wdp-tab-label">{c.label}</span>
-            </button>
-          ))}
-        </nav>
-
-        <button className="wdp-close" onClick={close} data-cursor="disable">
+        <button className="wdp-close" onClick={close} data-cursor="disable" aria-label="Close">
           <MdClose />
         </button>
       </header>
 
-      <div className="wdp-grid">
-        {category.pieces.map((piece, i) => (
-          <PieceCard
-            key={piece.id}
-            piece={piece}
-            accent={category.accent}
-            onOpenLightbox={(items, idx) => setLightbox({ items, idx })}
-            style={{ "--piece-delay": `${i * 0.08}s` } as React.CSSProperties}
-          />
-        ))}
-      </div>
+      <article className="wdp-article">
+        {/* HERO */}
+        <section className="wdp-hero wdp-reveal">
+          <div className="wdp-hero-meta">
+            <span className="wdp-tag">{category.context}</span>
+            <span className="wdp-tag-sep">·</span>
+            <span className="wdp-tag">{category.year}</span>
+          </div>
+          <h1 className="wdp-title">{category.label}</h1>
+          <p className="wdp-lede">{cs.intro}</p>
+          <div className="wdp-hero-media">
+            <Media media={category.hero ?? { kind: "image", src: category.thumbnail, alt: category.label }} />
+          </div>
+        </section>
 
-      {lightbox && (
-        <Lightbox
-          items={lightbox.items}
-          startIdx={lightbox.idx}
-          onClose={() => setLightbox(null)}
-        />
-      )}
+        {/* PROBLEM */}
+        <section className="wdp-section wdp-reveal">
+          <h2 className="wdp-section-h">Problem</h2>
+          <p className="wdp-section-p">{cs.problem}</p>
+        </section>
+
+        {/* PROCESS */}
+        <section className="wdp-section wdp-reveal">
+          <h2 className="wdp-section-h">Process</h2>
+          <ol className="wdp-list wdp-list--ordered">
+            {cs.process.map((step, i) => (
+              <li key={i}><span className="wdp-list-num">{String(i + 1).padStart(2, "0")}</span>{step}</li>
+            ))}
+          </ol>
+        </section>
+
+        {/* TECH */}
+        <section className="wdp-section wdp-reveal">
+          <h2 className="wdp-section-h">Tech Used</h2>
+          <div className="wdp-chips">
+            {cs.tech.map((t) => (
+              <span key={t} className="wdp-chip">{t}</span>
+            ))}
+          </div>
+        </section>
+
+        {/* CHALLENGES */}
+        <section className="wdp-section wdp-reveal">
+          <h2 className="wdp-section-h">Challenges</h2>
+          <ul className="wdp-list">
+            {cs.challenges.map((c, i) => <li key={i}>{c}</li>)}
+          </ul>
+        </section>
+
+        {/* OPTIMIZATION */}
+        <section className="wdp-section wdp-reveal">
+          <h2 className="wdp-section-h">Optimization</h2>
+          <ul className="wdp-list">
+            {cs.optimization.map((c, i) => <li key={i}>{c}</li>)}
+          </ul>
+        </section>
+
+        {/* FINAL OUTPUT */}
+        <section className="wdp-section wdp-reveal">
+          <h2 className="wdp-section-h">Final Output</h2>
+          <p className="wdp-section-p">{cs.finalOutput}</p>
+          {category.gallery.length > 0 && (
+            <div className="wdp-gallery">
+              {category.gallery.map((m, i) => (
+                <div className="wdp-gallery-item" key={i}>
+                  <Media media={m} />
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* METRICS */}
+        <section className="wdp-section wdp-reveal">
+          <h2 className="wdp-section-h">Results</h2>
+          <div className="wdp-metrics">
+            {cs.metrics.map((m) => (
+              <div key={m.label} className="wdp-metric">
+                <div className="wdp-metric-value">{m.value}</div>
+                <div className="wdp-metric-label">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* BREAKDOWN VIDEO */}
+        {cs.breakdownVideo && (
+          <section className="wdp-section wdp-reveal">
+            <h2 className="wdp-section-h">Breakdown</h2>
+            <div className="wdp-video">
+              <iframe
+                src={cs.breakdownVideo}
+                title={`${category.label} breakdown`}
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </section>
+        )}
+
+        {/* RELATED */}
+        <section className="wdp-section wdp-reveal wdp-related">
+          <h2 className="wdp-section-h">More work</h2>
+          <div className="wdp-related-grid">
+            {related.map((r) => (
+              <button
+                key={r.slug}
+                className="wdp-related-card"
+                onClick={() => switchCategory(r.slug)}
+                style={{ "--accent": r.accent } as React.CSSProperties}
+                data-cursor="view"
+              >
+                <div className="wdp-related-thumb">
+                  <img src={r.thumbnail} alt={r.label} loading="lazy" />
+                </div>
+                <div className="wdp-related-meta">
+                  <span className="wdp-related-sub">{r.subtitle}</span>
+                  <span className="wdp-related-name">{r.label}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </section>
+      </article>
     </div>
   );
 };

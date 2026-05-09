@@ -8,6 +8,7 @@ export type MediaItem =
   | { kind: "embed"; src: string; title?: string }; // for Sketchfab / YouTube etc.
 
 export interface WorkPiece {
+  video?: string;
   id: string;
   title: string;
   subtitle?: string;
@@ -427,3 +428,9 @@ export const getPieceById = (categorySlug: string, pieceId: string) => {
   const cat = getCategoryBySlug(categorySlug);
   return cat?.pieces.find((p) => p.id === pieceId);
 };
+
+export const archiveWorks = [
+  { label: "Early 3D Explorations", link: "#" },
+  { label: "Freelance Branding Concepts", link: "#" },
+  { label: "College Motion Graphics", link: "#" }
+];
