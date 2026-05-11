@@ -8,10 +8,13 @@
 }
 
 .contact-section h3 {
-  font-size: 60px;
+  font-size: clamp(50px, 6vw, 70px);
   font-weight: 400;
   text-transform: uppercase;
-  margin: 0;
+  letter-spacing: -0.02em;
+  color: #f5f3f7;
+  line-height: 1;
+  margin: 0 0 20px;
 }
 
 .contact-flex {
@@ -60,9 +63,7 @@ a.contact-social {
 }
 
 @media only screen and (max-width: 1600px) {
-  .contact-section h3 {
-    font-size: 50px;
-  }
+  /* h3 size handled by clamp */
 
   .contact-box h2 {
     font-size: 20px;
@@ -74,9 +75,7 @@ a.contact-social {
 }
 
 @media only screen and (max-width: 1300px) {
-  .contact-section h3 {
-    font-size: 40px;
-  }
+  /* h3 size handled by clamp */
 
   .contact-box h2 {
     font-size: 18px;

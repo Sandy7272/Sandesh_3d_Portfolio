@@ -1,238 +1,302 @@
 /* ═══════════════════════════════════════════
-   CAREER SECTION — Premium Timeline
+   CAREER SECTION — Premium Experience Timeline
    ═══════════════════════════════════════════ */
+
 .career-section {
   display: flex;
   flex-direction: column;
   position: relative;
-  opacity: 1;
+  z-index: 2;
   height: auto;
   margin: auto;
-  margin-bottom: 150px;
-  padding: 120px 5%;
+  margin-bottom: 60px;
+  padding: 100px 5% 80px;
+  background: transparent;
+}
+
+.career-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* ── Header ── */
 .career-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 64px;
 }
 
 .career-kicker {
   display: inline-block;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.24em;
   color: var(--accentColor);
-  background: rgba(94, 234, 212, 0.08);
-  border: 1px solid rgba(94, 234, 212, 0.15);
-  padding: 6px 18px;
+  background: rgba(94, 234, 212, 0.06);
+  border: 1px solid rgba(94, 234, 212, 0.12);
+  padding: 7px 20px;
   border-radius: 99px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .career-section h2 {
-  font-size: 70px;
-  line-height: 70px;
-  font-weight: 400;
+  font-family: "Geist", sans-serif;
+  font-size: clamp(48px, 6vw, 72px);
+  line-height: 1;
+  font-weight: 500;
   text-align: center;
-  background: linear-gradient(0deg, #0d9488, #ffffff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  margin-top: 0;
-  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  color: #f5f3f7;
+  margin: 0 0 20px;
 }
 
-.career-section h2 > span {
-  font-family: inherit;
+.career-subtitle {
+  font-size: 16px;
   font-weight: 300;
-}
-
-.career-header-sub {
-  font-size: 17px;
-  font-weight: 300;
-  color: rgba(234, 229, 236, 0.5);
-  max-width: 560px;
+  color: rgba(234, 229, 236, 0.45);
+  max-width: 500px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
 }
 
-/* ── Stats Bar ── */
-.career-stats-bar {
+/* ── Stats Strip ── */
+.career-stats {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 32px;
-  margin-bottom: 80px;
-  padding: 28px 40px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  backdrop-filter: blur(16px);
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  gap: 0;
+  margin: 0 auto 72px;
+  max-width: 700px;
+  width: 100%;
 }
 
-.career-stat-item {
+.career-stat {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  padding: 24px 16px;
+  position: relative;
+}
+
+/* Vertical dividers between stats */
+.career-stat:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 36px;
+  background: rgba(94, 234, 212, 0.12);
 }
 
 .career-stat-num {
-  font-size: 36px;
+  font-family: "Geist", sans-serif;
+  font-size: 38px;
   font-weight: 700;
-  color: var(--accentColor);
+  color: #f5f3f7;
   line-height: 1;
+  letter-spacing: -0.03em;
 }
 
 .career-stat-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(234, 229, 236, 0.45);
-}
-
-.career-stat-divider {
-  width: 1px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.14em;
+  color: rgba(234, 229, 236, 0.35);
 }
 
 /* ── Timeline ── */
-.career-info {
+.career-timeline {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  max-width: 900px;
-  padding-left: 50px;
+  gap: 0;
+  padding-left: 60px;
 }
 
-.career-timeline-container {
+/* Track (vertical line container) */
+.career-track {
   position: absolute;
-  top: 15px;
-  bottom: 0;
-  left: 20px;
-  width: 2px;
+  top: 20px;
+  bottom: 20px;
+  left: 23px;
+  width: 1px;
   background: rgba(255, 255, 255, 0.06);
-  border-radius: 2px;
 }
 
 .career-timeline-line {
   width: 100%;
   height: 0%;
-  background: linear-gradient(to bottom, #14b8a6, var(--accentColor));
-  box-shadow: 0px 0px 10px rgba(94, 234, 212, 0.5);
-  border-radius: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--accentColor) 30%,
+    var(--accentColor) 70%,
+    transparent 100%
+  );
+  box-shadow: 0 0 14px rgba(94, 234, 212, 0.5);
 }
 
-.career-info-box {
+/* ── Each timeline card ── */
+.career-card {
   position: relative;
-  padding-bottom: 60px;
+  padding-bottom: 56px;
 }
 
-.career-info-box:last-child {
+.career-card:last-child {
   padding-bottom: 0;
 }
 
 /* ── Dot ── */
 .career-dot {
   position: absolute;
-  top: 25px;
-  left: -35px;
-  width: 14px;
-  height: 14px;
+  top: 32px;
+  left: -43px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background-color: #1a1a1a;
-  border: 2px solid #444;
-  transition: all 0.3s ease;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #0a0e17;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  z-index: 3;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 0 5px #0a0e17;
 }
 
-.career-dot-ring {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  position: absolute;
-  transition: border-color 0.3s ease;
-}
-
-.career-info-box:hover .career-dot-ring {
-  border-color: rgba(94, 234, 212, 0.2);
-}
-
-/* ── Card ── */
-.career-info-content {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 32px 36px;
-  border-radius: 16px;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              background 0.4s ease,
-              border-color 0.4s ease,
-              box-shadow 0.4s ease;
-  backdrop-filter: blur(10px);
-}
-
-.career-info-content:hover {
-  background: rgba(255, 255, 255, 0.04);
-  transform: translateX(8px);
-  border-color: rgba(94, 234, 212, 0.15);
-  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.4),
-              0 0 40px -10px rgba(94, 234, 212, 0.05);
-}
-
-/* ── Role header ── */
-.career-role-header {
-  margin-bottom: 20px;
-}
-
+/* ── When badge (above card) ── */
 .career-when {
-  font-size: 12px;
-  color: rgba(234, 229, 236, 0.5);
   display: inline-block;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 5px 12px;
-  border-radius: 6px;
+  letter-spacing: 0.1em;
+  color: rgba(234, 229, 236, 0.4);
+  margin-bottom: 12px;
+  padding-left: 2px;
+}
+
+/* ── Card Body ── */
+.career-card-body {
+  background: linear-gradient(
+    160deg,
+    rgba(20, 24, 36, 0.7) 0%,
+    rgba(10, 14, 23, 0.85) 100%
+  );
   border: 1px solid rgba(255, 255, 255, 0.06);
-  margin-bottom: 14px;
+  border-radius: 18px;
+  padding: 36px 40px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.4s ease,
+    box-shadow 0.5s ease,
+    background 0.5s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.career-role-header h3 {
-  font-size: 26px;
-  font-weight: 600;
-  margin: 0 0 6px 0;
-  color: #fff;
-  line-height: 1.2;
+/* Subtle top-edge light */
+.career-card-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 40px;
+  right: 40px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
 }
 
-.career-role-header h4 {
-  font-size: 18px;
+/* Hover glow corner */
+.career-card-body::after {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(94, 234, 212, 0.06), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.career-card-body:hover {
+  border-color: rgba(94, 234, 212, 0.18);
+  transform: translateX(8px);
+  box-shadow:
+    0 16px 48px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(94, 234, 212, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.career-card-body:hover::after {
+  opacity: 1;
+}
+
+/* ── Card Top (role + index) ── */
+.career-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 24px;
+}
+
+.career-role {
+  font-family: "Geist", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 0 8px;
+  color: #f5f3f7;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.career-company {
+  font-family: "Geist", sans-serif;
+  font-size: 13px;
   font-weight: 500;
   color: var(--accentColor);
   margin: 0;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.career-index {
+  font-family: "Geist", sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.03);
+  flex-shrink: 0;
+  user-select: none;
+  transition: color 0.4s ease;
+}
+
+.career-card-body:hover .career-index {
+  color: rgba(94, 234, 212, 0.07);
 }
 
 /* ── Highlights ── */
 .career-highlights {
   list-style: none;
   padding: 0;
-  margin: 0 0 20px;
+  margin: 0 0 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -240,127 +304,169 @@
 
 .career-highlights li {
   position: relative;
-  padding-left: 22px;
-  font-size: 15px;
-  color: rgba(203, 213, 225, 0.85);
-  line-height: 1.65;
+  padding-left: 20px;
+  font-size: 14px;
+  color: rgba(234, 229, 236, 0.6);
+  line-height: 1.7;
   font-weight: 300;
+  letter-spacing: 0.005em;
 }
 
 .career-highlights li::before {
-  content: "▹";
+  content: "";
   position: absolute;
   left: 0;
-  top: -1px;
-  font-size: 16px;
-  color: var(--accentColor);
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(94, 234, 212, 0.35);
+  box-shadow: 0 0 6px rgba(94, 234, 212, 0.4);
+  transition: all 0.3s ease;
+}
+
+.career-card-body:hover .career-highlights li::before {
+  background: rgba(94, 234, 212, 0.6);
+  box-shadow: 0 0 10px rgba(94, 234, 212, 0.5);
 }
 
 /* ── Skill Tags ── */
-.career-skill-tags {
+.career-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 
-.career-skill-tag {
+.career-tag {
   font-size: 11px;
   font-weight: 500;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 99px;
-  border: 1px solid rgba(94, 234, 212, 0.15);
-  background: rgba(94, 234, 212, 0.04);
-  color: rgba(94, 234, 212, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(234, 229, 236, 0.5);
   letter-spacing: 0.03em;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
 }
 
-.career-info-content:hover .career-skill-tag {
-  border-color: rgba(94, 234, 212, 0.25);
-  background: rgba(94, 234, 212, 0.08);
+.career-card-body:hover .career-tag {
+  border-color: rgba(94, 234, 212, 0.18);
+  color: rgba(94, 234, 212, 0.7);
+  background: rgba(94, 234, 212, 0.04);
 }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════ */
-@media only screen and (max-width: 1400px) {
-  .career-section h2 {
-    font-size: 55px;
-    line-height: 60px;
-  }
-}
-
 @media only screen and (max-width: 900px) {
   .career-section {
-    padding: 80px 5%;
-  }
-
-  .career-section h2 {
-    font-size: 45px;
-    line-height: 50px;
-  }
-
-  .career-header {
+    padding: 80px 5% 60px;
     margin-bottom: 40px;
   }
 
-  .career-stats-bar {
+  .career-header {
+    margin-bottom: 48px;
+  }
+
+  .career-stats {
+    gap: 0;
+    margin-bottom: 48px;
     flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px 24px;
-    margin-bottom: 50px;
   }
 
-  .career-stat-num {
-    font-size: 28px;
+  .career-stat {
+    min-width: 50%;
+    padding: 16px 12px;
   }
 
-  .career-stat-divider {
+  .career-stat:not(:last-child)::after {
     display: none;
   }
 
-  .career-stat-item {
-    min-width: 80px;
+  .career-stat-num {
+    font-size: 30px;
   }
 
-  .career-info {
-    padding-left: 35px;
+  .career-timeline {
+    padding-left: 40px;
   }
 
-  .career-timeline-container {
-    left: 10px;
+  .career-track {
+    left: 14px;
   }
 
   .career-dot {
-    left: -30px;
+    left: -31px;
+    width: 10px;
+    height: 10px;
   }
 
-  .career-info-content {
-    padding: 24px;
+  .career-card-body {
+    padding: 28px 24px;
   }
 
-  .career-role-header h3 {
-    font-size: 22px;
+  .career-role {
+    font-size: 20px;
   }
 
-  .career-role-header h4 {
-    font-size: 16px;
+  .career-company {
+    font-size: 12px;
+  }
+
+  .career-index {
+    font-size: 36px;
   }
 
   .career-highlights li {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.6;
+  }
+
+  .career-card {
+    padding-bottom: 40px;
   }
 }
 
 @media only screen and (max-width: 500px) {
-  .career-info-content {
-    padding: 20px 15px;
+  .career-section {
+    padding: 60px 4% 40px;
   }
 
-  .career-stats-bar {
-    gap: 16px;
-    padding: 18px 16px;
+  .career-timeline {
+    padding-left: 32px;
+  }
+
+  .career-track {
+    left: 10px;
+  }
+
+  .career-dot {
+    left: -27px;
+  }
+
+  .career-card-body {
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+
+  .career-card-top {
+    flex-direction: column-reverse;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .career-index {
+    font-size: 28px;
+    align-self: flex-end;
+  }
+
+  .career-role {
+    font-size: 18px;
+  }
+
+  .career-stat {
+    min-width: 50%;
+    padding: 12px 8px;
   }
 
   .career-stat-num {
@@ -369,5 +475,14 @@
 
   .career-stat-label {
     font-size: 10px;
+  }
+
+  .career-tags {
+    gap: 6px;
+  }
+
+  .career-tag {
+    font-size: 10px;
+    padding: 4px 10px;
   }
 }

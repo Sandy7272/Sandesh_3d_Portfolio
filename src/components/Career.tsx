@@ -11,9 +11,10 @@ const Career = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Animate the timeline progress line
       gsap.to(".career-timeline-line", {
         scrollTrigger: {
-          trigger: ".career-info",
+          trigger: ".career-timeline",
           start: "top 60%",
           end: "bottom 60%",
           scrub: 1,
@@ -22,30 +23,48 @@ const Career = () => {
         ease: "none",
       });
 
-      const boxes = gsap.utils.toArray(".career-info-box");
-      boxes.forEach((box: any) => {
-        gsap.from(box, {
+      // Stagger-in each experience card
+      const cards = gsap.utils.toArray(".career-card");
+      cards.forEach((card: any, i: number) => {
+        gsap.from(card, {
           scrollTrigger: {
-            trigger: box,
+            trigger: card,
             start: "top 85%",
           },
-          y: 40,
+          y: 50,
           opacity: 0,
-          duration: 0.8,
+          duration: 0.9,
+          delay: i * 0.05,
           ease: "power3.out",
         });
 
-        gsap.to(box.querySelector(".career-dot"), {
+        // Animate the dot when it reaches center
+        gsap.to(card.querySelector(".career-dot"), {
           scrollTrigger: {
-            trigger: box,
+            trigger: card,
             start: "top 60%",
             toggleActions: "play none none reverse",
           },
-          scale: 1.3,
+          scale: 1.4,
           backgroundColor: "var(--accentColor)",
           borderColor: "var(--accentColor)",
-          boxShadow: "0px 0px 15px 2px rgba(94, 234, 212, 0.6)",
-          duration: 0.3,
+          boxShadow: "0 0 20px 3px rgba(94, 234, 212, 0.5)",
+          duration: 0.35,
+        });
+      });
+
+      // Animate stats counting up
+      const statNums = gsap.utils.toArray(".career-stat-num");
+      statNums.forEach((el: any) => {
+        gsap.from(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+          },
+          y: 20,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.out",
         });
       });
     }, containerRef);
@@ -54,69 +73,77 @@ const Career = () => {
   }, []);
 
   return (
-    <div className="career-section section-container" id="experience" ref={containerRef}>
-      <div className="career-container">
+    <div
+      className="career-section section-container"
+      id="experience"
+      ref={containerRef}
+    >
+      <div className="career-inner">
         {/* Section header */}
         <div className="career-header">
           <span className="career-kicker">Career Journey</span>
           <h2>
-            Work <span>&</span>
-            <br /> Experience
+            Experience
           </h2>
-          <p className="career-header-sub">
-            From 3D artist to full-stack technologist — building at the intersection of design, code, and AI.
+          <p className="career-subtitle">
+            From 3D artist to creative technologist — building at the
+            intersection of design, code, and AI.
           </p>
         </div>
 
-        {/* Stats bar */}
-        <div className="career-stats-bar">
-          <div className="career-stat-item">
-            <span className="career-stat-num">4+</span>
-            <span className="career-stat-label">Years Experience</span>
-          </div>
-          <div className="career-stat-divider" />
-          <div className="career-stat-item">
-            <span className="career-stat-num">3</span>
-            <span className="career-stat-label">Companies</span>
-          </div>
-          <div className="career-stat-divider" />
-          <div className="career-stat-item">
-            <span className="career-stat-num">100+</span>
-            <span className="career-stat-label">Projects Delivered</span>
-          </div>
-          <div className="career-stat-divider" />
-          <div className="career-stat-item">
-            <span className="career-stat-num">40%</span>
-            <span className="career-stat-label">Pipeline Speedup</span>
-          </div>
+        {/* Stats strip */}
+        <div className="career-stats">
+          {[
+            { num: "4+", label: "Years" },
+            { num: "3", label: "Companies" },
+            { num: "50+", label: "Projects" },
+            { num: "3×", label: "Best Employee" },
+          ].map((s) => (
+            <div className="career-stat" key={s.label}>
+              <span className="career-stat-num">{s.num}</span>
+              <span className="career-stat-label">{s.label}</span>
+            </div>
+          ))}
         </div>
 
-        <div className="career-info">
-          <div className="career-timeline-container">
-            <div className="career-timeline-line"></div>
+        {/* Timeline */}
+        <div className="career-timeline">
+          {/* Vertical line */}
+          <div className="career-track">
+            <div className="career-timeline-line" />
           </div>
 
           {resume.experience.map((job, index) => (
-            <div className="career-info-box" key={`${job.company}-${index}`}>
-              <div className="career-dot">
-                <div className="career-dot-ring" />
-              </div>
+            <div className="career-card" key={`${job.company}-${index}`}>
+              {/* Dot on the timeline */}
+              <div className="career-dot" />
 
-              <div className="career-info-content">
-                <div className="career-role-header">
-                  <span className="career-when">{job.when}</span>
-                  <h3>{job.role}</h3>
-                  <h4>{job.company}</h4>
+              {/* When badge */}
+              <span className="career-when">{job.when}</span>
+
+              {/* Card body */}
+              <div className="career-card-body">
+                <div className="career-card-top">
+                  <div>
+                    <h3 className="career-role">{job.role}</h3>
+                    <h4 className="career-company">{job.company}</h4>
+                  </div>
+                  <span className="career-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                 </div>
+
                 <ul className="career-highlights">
                   {job.highlights.map((point, idx) => (
                     <li key={idx}>{point}</li>
                   ))}
                 </ul>
-                {/* Skill tags derived from highlights */}
-                <div className="career-skill-tags">
+
+                <div className="career-tags">
                   {getSkillTags(index).map((tag) => (
-                    <span className="career-skill-tag" key={tag}>{tag}</span>
+                    <span className="career-tag" key={tag}>
+                      {tag}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -130,9 +157,9 @@ const Career = () => {
 
 function getSkillTags(jobIndex: number): string[] {
   const tagSets = [
-    ["React", "Three.js", "NeRF", "BabylonJS", "AI/ML", "Product"],
+    ["React", "Three.js", "NeRF", "Gaussian Splatting", "AI/ML", "Product"],
     ["Blender", "After Effects", "3D Pipeline", "Motion Graphics", "Team Lead"],
-    ["Gaussian Splatting", "WebGL", "Photogrammetry", "Full Stack"],
+    ["3D Modeling", "VFX", "Photogrammetry", "Freelance"],
   ];
   return tagSets[jobIndex] || tagSets[tagSets.length - 1];
 }
