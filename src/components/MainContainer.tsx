@@ -42,9 +42,9 @@ const MainContainer = ({ children }: PropsWithChildren) => {
           <div className="container-main">
             <Landing>{!isDesktopView && children}</Landing>
             <About />
+            <Work />
             <WhatIDo />
             <Career />
-            <Work />
             {isDesktopView && (
               <Suspense fallback={<div>Loading....</div>}>
                 <TechStack />

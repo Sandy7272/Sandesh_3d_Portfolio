@@ -7,9 +7,9 @@ const MainContainer = lazy(() => import("./components/MainContainer"));
 import { LoadingProvider } from "./context/LoadingProvider";
 
 const HomePage = () => (
-  <Suspense>
+  <Suspense fallback={<div style={{ minHeight: "100vh", background: "#0a0e17" }} />}>
     <MainContainer>
-      <Suspense>
+      <Suspense fallback={null}>
         <CharacterModel />
       </Suspense>
     </MainContainer>
