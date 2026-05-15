@@ -14,15 +14,24 @@ import {
 const textureLoader = new THREE.TextureLoader();
 const imageUrls = [
   "/images/blender.png",
-  "/images/unreal.png",
-  "/images/premiere.png",
-  "/images/aftereffects.png",
-  "/images/figma.png",
-  "/images/react2.webp",
-  "/images/typescript.webp",
-  "/images/javascript.webp",
+  "/images/unrealengine.png",
+  "/images/adobecreativecloud.webp",
+  "/images/aftereffects.webp",
+  "/images/figma.webp",
+  "/images/threejs.png",
 ];
-const textures = imageUrls.map((url) => textureLoader.load(url));
+const textures = imageUrls.map((url) => {
+  const texture = textureLoader.load(url);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  // Decrease repeat below 1 to zoom IN, making the logo even bigger
+  texture.repeat.set(0.8, 0.8);
+  // Center it perfectly: (1 - 0.8) / 2 = 0.1
+  texture.offset.set(0.1, 0.1);
+  // Prevent the logo from tiling
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
+  return texture;
+});
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
@@ -211,7 +220,7 @@ const TechStack = () => {
             <SphereGeo
               key={i}
               {...props}
-              material={materials[Math.floor(Math.random() * materials.length)]}
+              material={materials[i % materials.length]}
               isActive={isActive}
             />
           ))}
