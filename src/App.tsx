@@ -4,26 +4,35 @@ import "./App.css";
 
 const CharacterModel = lazy(() => import("./components/Character"));
 const MainContainer = lazy(() => import("./components/MainContainer"));
+const AboutPage = lazy(() => import("./components/AboutPage"));
 import { LoadingProvider } from "./context/LoadingProvider";
 
 const HomePage = () => (
-  <Suspense>
-    <MainContainer>
-      <Suspense>
-        <CharacterModel />
-      </Suspense>
-    </MainContainer>
-  </Suspense>
+  <LoadingProvider>
+    <Suspense>
+      <MainContainer>
+        <Suspense>
+          <CharacterModel />
+        </Suspense>
+      </MainContainer>
+    </Suspense>
+  </LoadingProvider>
 );
 
 const App = () => {
   return (
     <BrowserRouter>
-      <LoadingProvider>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </LoadingProvider>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/about"
+          element={
+            <Suspense fallback={<div />}>
+              <AboutPage />
+            </Suspense>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 };

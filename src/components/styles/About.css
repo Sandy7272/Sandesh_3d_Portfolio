@@ -9,32 +9,156 @@
   width: var(--cWidth);
   margin: auto;
 }
+
 .about-me {
   padding: 50px 0px;
   padding-bottom: 0;
-  width: 500px;
+  width: 550px;
   max-width: calc(100% - 15px);
+  z-index: 10;
 }
-.about-me h3 {
-  font-size: 25px;
+
+/* Title */
+.am-title {
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 7px;
-  font-weight: 400;
-  color: var(--accentColor);
-}
-
-.about-me p {
-  font-size: 33px;
+  letter-spacing: 6px;
   font-weight: 600;
-  line-height: 36px;
-  letter-spacing: 1px;
+  color: var(--accentColor);
+  margin: 0 0 20px;
+  font-family: "Outfit", sans-serif;
 }
 
+/* Intro Paragraph */
+.am-intro {
+  font-size: clamp(20px, 1.6vw, 30px);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #eae5ec;
+  margin: 0 0 35px;
+}
+
+/* Stats */
+.am-stats {
+  display: flex;
+  gap: 32px;
+  margin: 0 0 35px;
+  flex-wrap: wrap;
+}
+
+.am-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.am-stat-num {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(24px, 2.2vw, 36px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.am-stat-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(234, 229, 236, 0.45);
+  line-height: 1.4;
+}
+
+/* Contact Info */
+.am-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 35px;
+}
+
+.am-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.am-contact-label {
+  color: rgba(234, 229, 236, 0.45);
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 90px;
+}
+
+.am-contact-val {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Social Icons */
+.am-socials {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 35px;
+}
+
+.am-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(234, 229, 236, 0.85);
+  font-size: 17px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+.am-socials a:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accentColor);
+  color: var(--accentColor);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(94, 234, 212, 0.15);
+}
+
+/* Button */
+.am-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(234, 229, 236, 0.9);
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  font-family: "Geist", sans-serif;
+}
+
+.am-btn:hover {
+  border-color: var(--accentColor);
+  color: var(--accentColor);
+  transform: translateY(-2px);
+  background: rgba(94, 234, 212, 0.03);
+}
+
+/* Responsive Layout Adjustments */
 @media only screen and (min-width: 600px) {
   .about-section {
     justify-content: center;
   }
 }
+
 @media only screen and (min-width: 768px) {
   .about-me {
     width: 500px;
@@ -45,6 +169,7 @@
     opacity: 1;
   }
 }
+
 @media only screen and (min-width: 1025px) {
   .about-section {
     width: var(--cWidth);
@@ -57,15 +182,5 @@
   .about-me {
     padding: 0px;
     width: 50%;
-  }
-  .about-me p {
-    font-size: 1.9vw;
-    line-height: 2.3vw;
-  }
-}
-@media only screen and (min-width: 1950px) {
-  .about-me p {
-    font-size: 2.5rem;
-    line-height: 2.7rem;
   }
 }
