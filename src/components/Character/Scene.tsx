@@ -32,7 +32,7 @@ const Scene = () => {
         antialias: true,
       });
       renderer.setSize(container.width, container.height);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1;
       canvasDiv.current.appendChild(renderer.domElement);
@@ -63,7 +63,7 @@ const Scene = () => {
           let character = gltf.scene;
           setChar(character);
           scene.add(character);
-          headBone = character.getObjectByName("spine006") || null;
+          headBone = character.getObjectByName("spine.006") || null;
           screenLight = character.getObjectByName("screenlight") || null;
           progress.loaded().then(() => {
             introTimer = window.setTimeout(() => {
@@ -72,6 +72,8 @@ const Scene = () => {
             }, 2500);
           });
         }
+      }).catch((error) => {
+        console.error("Error loading character model:", error);
       });
 
       let mouse = { x: 0, y: 0 },

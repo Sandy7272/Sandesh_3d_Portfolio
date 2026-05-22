@@ -53,10 +53,10 @@ export const workCategories: WorkCategory[] = [
   /* 1 ─ Interactive 3D / Real-time */
   {
     slug: "interactive-3d",
-    label: "AI E-commerce 3D Viewer",
-    subtitle: "Interactive 3D · Real-time Web",
+    label: "Immersive 3D Viewer System",
+    subtitle: "Real-time WebGL · UI/UX System",
     summary:
-      "MetaShop AI's first self-service product — a real-time 3D viewer embedded in a customer-facing web app.",
+      "MetaShop AI's flagship real-time 3D viewer. An immersive, interactive WebGL experience deployed directly to customer-facing platforms.",
     thumbnail: "/images/work-3d-01.png",
     gallery: [
       { kind: "image", src: "/images/work-3d-01.png", alt: "Viewer hero" },
@@ -102,10 +102,10 @@ export const workCategories: WorkCategory[] = [
   /* 2 ─ Video to 3D / NeRF / Gaussian Splatting */
   {
     slug: "video-to-3d",
-    label: "Enterprise 3D Pipeline",
-    subtitle: "Video to 3D · NeRF · Gaussian Splatting",
+    label: "Photogrammetry & Gaussian Splats Pipeline",
+    subtitle: "NeRF · Video-to-3D Research",
     summary:
-      "Rebuilt MetaShop AI's video-to-3D workflow into a production-grade pipeline used to deliver real estate and hospitality projects.",
+      "A production-grade neural rendering pipeline transforming standard video into hyper-realistic 3D Gaussian Splats for enterprise clients.",
     thumbnail: "/images/work-v2three-01.png",
     gallery: [
       { kind: "image", src: "/images/work-v2three-01.png", alt: "Real estate splat capture" },
@@ -152,10 +152,10 @@ export const workCategories: WorkCategory[] = [
   /* 3 ─ AI Workflows & Automation */
   {
     slug: "ai-workflows",
-    label: "Operations Automation",
-    subtitle: "AI Workflows · Process Design",
+    label: "AI-Powered Workflow Infrastructure",
+    subtitle: "Process Automation · Internal Tooling",
     summary:
-      "Designed the file tracking and workflow automation that took the 3D pipeline from artisan work to operations infrastructure.",
+      "Architected a backstage layer of automated tracking and AI-assisted pipelines, radically accelerating 3D production throughput.",
     thumbnail: "/images/work-uiux-02.png",
     gallery: [
       { kind: "image", src: "/images/work-uiux-02.png", alt: "Workflow dashboard" },
@@ -200,10 +200,10 @@ export const workCategories: WorkCategory[] = [
   /* 4 ─ Motion Graphics */
   {
     slug: "motion-graphics",
-    label: "STEM Content System",
-    subtitle: "Motion Graphics · Educational",
+    label: "Cinematic Motion Graphics Sequence",
+    subtitle: "Educational Content · Asset Generation",
     summary:
-      "A reusable animation system at Byju's that powered 100+ STEM modules consumed by millions of students.",
+      "A high-fidelity, template-driven motion graphics system powering over 100 immersive educational modules.",
     thumbnail: "/images/work-mograph-01.png",
     gallery: [
       { kind: "image", src: "/images/work-mograph-01.png", alt: "STEM module" },

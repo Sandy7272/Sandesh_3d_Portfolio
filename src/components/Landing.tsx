@@ -52,6 +52,9 @@ const Landing = ({ children }: PropsWithChildren) => {
           <h1 className="landing-headline">
             SANDESH<br />GADAKH
           </h1>
+          <p className="landing-sub">
+            Creative technologist building real-time 3D, AI workflows, and interactive product experiences.
+          </p>
           <div className="landing-ctas">
             <a
               href="#work"
@@ -59,16 +62,16 @@ const Landing = ({ children }: PropsWithChildren) => {
               onClick={(e) => handleScroll(e, "work")}
               data-cursor="disable"
             >
-              View My<br />Work
+              View My Work
             </a>
             <a
-              href="/resume.html"
+              href="/resume.pdf"
               target="_blank"
               rel="noreferrer"
               className="landing-cta-secondary"
               data-cursor="disable"
             >
-              Download<br />Resume
+              Download Resume
             </a>
           </div>
         </div>

@@ -227,28 +227,28 @@
 }
 .landing-eyebrow {
   display: inline-block;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   color: var(--accentColor);
   margin-bottom: 18px;
 }
 .landing-headline {
   margin: 0 0 22px;
-  font-family: "Outfit", sans-serif;
-  font-size: clamp(48px, 8vw, 96px);
-  line-height: 0.95;
-  font-weight: 600;
-  letter-spacing: -0.04em;
+  font-family: "Geist", sans-serif;
+  font-size: var(--fs-hero);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tight);
   color: #f5f3f7;
   text-transform: uppercase;
 }
 .landing-sub {
   margin: 0 0 28px;
-  font-size: clamp(15px, 1.2vw, 17px);
-  line-height: 1.6;
-  font-weight: 300;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-relaxed);
+  font-weight: var(--fw-light);
   color: rgba(234, 229, 236, 0.7);
   max-width: 460px;
 }
@@ -264,19 +264,19 @@
 }
 .landing-info-tag {
   display: inline-block;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-size: var(--fs-tiny);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   color: var(--accentColor);
   margin-bottom: 14px;
 }
 .landing-info-line {
   margin: 0 0 22px;
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-relaxed);
   color: rgba(234, 229, 236, 0.72);
-  font-weight: 300;
+  font-weight: var(--fw-light);
 }
 
 /* CTA Buttons */
@@ -290,14 +290,14 @@
 .landing-cta-primary {
   background: var(--accentColor);
   color: #0a0e17;
-  font-weight: 700;
+  font-weight: var(--fw-medium);
   padding: 14px 28px;
   border-radius: 8px;
-  font-size: 14px;
-  letter-spacing: 0.04em;
+  font-size: var(--fs-body-sm);
+  letter-spacing: var(--ls-wide);
   text-decoration: none;
   text-align: left;
-  line-height: 1.4;
+  line-height: var(--lh-base);
   min-width: 140px;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -310,14 +310,14 @@
   border: 1px solid rgba(234, 229, 236, 0.22);
   color: rgba(234, 229, 236, 0.85);
   background: transparent;
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   padding: 14px 28px;
   border-radius: 8px;
-  font-size: 14px;
-  letter-spacing: 0.04em;
+  font-size: var(--fs-body-sm);
+  letter-spacing: var(--ls-wide);
   text-decoration: none;
   text-align: left;
-  line-height: 1.4;
+  line-height: var(--lh-base);
   min-width: 140px;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -344,16 +344,16 @@
   height: 70px;
   display: flex;
   align-items: center;
-  font-family: "Outfit", sans-serif;
-  font-size: clamp(32px, 4vw, 56px);
-  font-weight: 700;
+  font-family: "Geist", sans-serif;
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-semibold);
   color: #f5f3f7;
-  line-height: 1;
+  line-height: var(--lh-tight);
   text-transform: uppercase;
   white-space: nowrap;
   opacity: 0.2;
   transition: opacity 0.6s ease;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--ls-tight);
 }
 
 .landing-role-item.active {

@@ -111,7 +111,7 @@ const Navbar = () => {
               <a
                 href="#contact"
                 onClick={(e) => handleScroll(e, "#contact")}
-                className="relative z-20 flex-shrink-0 px-6 py-2 bg-white text-neutral-900 rounded-full font-semibold text-sm hover:bg-neutral-100 transition duration-200 cursor-pointer"
+                className="relative z-20 flex-shrink-0 px-6 py-2 bg-white text-black rounded-full font-semibold text-sm hover:bg-neutral-200 transition duration-200 cursor-pointer"
                 data-cursor="disable"
               >
                 Contact
@@ -181,7 +181,7 @@ const Navbar = () => {
                 <div className="flex w-full flex-col gap-4 mt-4">
                   <a
                     href="#contact"
-                    className="w-full py-2.5 bg-white text-neutral-900 rounded-full font-semibold text-sm text-center hover:bg-neutral-100 transition duration-200"
+                    className="w-full py-2.5 bg-white text-black rounded-full font-semibold text-sm text-center hover:bg-neutral-200 transition duration-200"
                     onClick={(e) => {
                       setIsMobileMenuOpen(false);
                       handleScroll(e, "#contact");

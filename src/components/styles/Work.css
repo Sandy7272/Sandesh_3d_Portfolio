@@ -44,9 +44,9 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   color: rgba(234, 229, 236, 0.55);
   margin-bottom: 24px;
@@ -63,18 +63,18 @@
 }
 
 .sw-title {
-  font-size: clamp(50px, 6vw, 70px);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1;
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-tight);
   margin: 0 0 20px;
   color: #f5f3f7;
   text-transform: uppercase;
 }
 .sw-subtitle {
-  font-size: clamp(15px, 1.4vw, 18px);
-  font-weight: 300;
-  line-height: 1.6;
+  font-size: var(--fs-lede);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-relaxed);
   color: rgba(234, 229, 236, 0.55);
   margin: 0;
 }
@@ -164,9 +164,9 @@
   border-radius: 99px;
   background: rgba(245, 243, 247, 0.92);
   color: #0a0a0a;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-tight);
   backdrop-filter: blur(10px);
   z-index: 2;
   transform: translateY(0);
@@ -213,27 +213,27 @@
   padding: 8px 6px 0;
 }
 .sw-card-meta {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-size: var(--fs-tiny);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   color: rgba(234, 229, 236, 0.45);
 }
 .sw-card-name {
   margin: 0;
-  font-family: "Outfit", sans-serif;
-  font-size: clamp(24px, 2.6vw, 34px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  font-family: "Geist", sans-serif;
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-tight);
   color: #f5f3f7;
   transition: color 0.4s ease;
 }
 .sw-card:hover .sw-card-name { color: var(--accent); }
 .sw-card-desc {
   margin: 0;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-relaxed);
   color: rgba(234, 229, 236, 0.6);
 }
 .sw-card-cta-row {
@@ -241,9 +241,9 @@
   align-items: center;
   gap: 10px;
   margin-top: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   color: rgba(234, 229, 236, 0.7);
   transition: color 0.4s ease;
@@ -282,9 +282,9 @@
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.02);
   color: #f5f3f7;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
@@ -336,19 +336,19 @@
 }
 
 .work-title {
-  font-size: clamp(60px, 9vw, 110px);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 0.9;
+  font-size: var(--fs-hero);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-tight);
   color: #fff;
   margin: 0;
 }
 
 .work-count {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
   color: rgba(255, 255, 255, 0.35);
-  letter-spacing: 0.02em;
+  letter-spacing: var(--ls-tight);
   white-space: nowrap;
   align-self: flex-end;
   padding-bottom: 6px;

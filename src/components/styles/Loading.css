@@ -15,8 +15,8 @@
   border-radius: 100px;
   background-color: #000;
   overflow: hidden;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-medium);
   position: relative;
   z-index: 9;
 }
@@ -214,9 +214,9 @@
 }
 
 .loader-title {
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.2px;
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-body-sm);
+  letter-spacing: var(--ls-normal);
 }
 
 @keyframes blink {
@@ -456,16 +456,16 @@
 }
 
 .loading-error-title {
-  font-size: 22px;
-  font-weight: 500;
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-medium);
   color: #eae5ec;
   margin: 0 0 10px;
   letter-spacing: -0.01em;
 }
 
 .loading-error-msg {
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-relaxed);
   color: rgba(234, 229, 236, 0.65);
   margin: 0 0 28px;
 }
@@ -484,9 +484,9 @@
   color: #eae5ec;
   padding: 11px 22px;
   border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-tight);
   cursor: pointer;
   transition: all 0.25s ease;
 }

@@ -20,21 +20,21 @@
 
 /* Title */
 .am-title {
-  font-size: 13px;
+  font-size: var(--fs-label);
   text-transform: uppercase;
-  letter-spacing: 6px;
-  font-weight: 600;
+  letter-spacing: var(--ls-widest);
+  font-weight: var(--fw-medium);
   color: var(--accentColor);
   margin: 0 0 20px;
-  font-family: "Outfit", sans-serif;
+  font-family: "Geist", sans-serif;
 }
 
 /* Intro Paragraph */
 .am-intro {
-  font-size: clamp(20px, 1.6vw, 30px);
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-base);
+  letter-spacing: var(--ls-tight);
   color: #eae5ec;
   margin: 0 0 35px;
 }
@@ -54,20 +54,20 @@
 }
 
 .am-stat-num {
-  font-family: "Outfit", sans-serif;
-  font-size: clamp(24px, 2.2vw, 36px);
-  font-weight: 700;
+  font-family: "Geist", sans-serif;
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-semibold);
   color: #ffffff;
-  line-height: 1;
+  line-height: var(--lh-tight);
 }
 
 .am-stat-label {
-  font-size: 10px;
-  font-weight: 500;
+  font-size: var(--fs-tiny);
+  font-weight: var(--fw-medium);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--ls-widest);
   color: rgba(234, 229, 236, 0.45);
-  line-height: 1.4;
+  line-height: var(--lh-base);
 }
 
 /* Contact Info */
@@ -87,16 +87,16 @@
 
 .am-contact-label {
   color: rgba(234, 229, 236, 0.45);
-  font-weight: 500;
-  font-size: 11px;
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-tiny);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--ls-widest);
   min-width: 90px;
 }
 
 .am-contact-val {
   color: #ffffff;
-  font-weight: 500;
+  font-weight: var(--fw-regular);
 }
 
 /* Social Icons */
@@ -134,11 +134,11 @@
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: rgba(234, 229, 236, 0.9);
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   padding: 12px 28px;
   border-radius: 8px;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-size: var(--fs-body-sm);
+  letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);

@@ -18,7 +18,6 @@
   font-style: normal;
   line-height: 1.5;
   scroll-behavior: smooth;
-  color-scheme: light dark;
   color: #eae5ec;
   background-color: var(--backgroundColor);
 
@@ -26,13 +25,66 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
   --accentColor: #5eead4;
   --backgroundColor: #0a0e17;
   --vh: 100vh;
   --vh: 100svh;
+
+  /* Spacing scale */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+  --space-3xl: 140px;
+
+  /* Typography System */
+  /* Font Weights */
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* Font Sizes */
+  --fs-hero: clamp(48px, 8vw, 96px);
+  --fs-h1: clamp(40px, 6vw, 76px);
+  --fs-h2: clamp(32px, 4vw, 56px);
+  --fs-h3: clamp(24px, 2.6vw, 34px);
+  --fs-h4: clamp(18px, 2vw, 22px);
+  --fs-lede: clamp(16px, 1.4vw, 19px);
+  --fs-body-lg: 16px;
+  --fs-body: 15px;
+  --fs-body-sm: 14px;
+  --fs-label: 12px;
+  --fs-tiny: 11px;
+
+  /* Line Heights */
+  --lh-tight: 1.05;
+  --lh-base: 1.5;
+  --lh-relaxed: 1.7;
+
+  /* Letter Spacing */
+  --ls-tight: -0.02em;
+  --ls-normal: 0em;
+  --ls-wide: 0.1em;
+  --ls-widest: 0.18em;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 99999;
+  background: var(--accentColor);
+  color: #0a0e17;
+  padding: 12px 20px;
+  font-weight: 700;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus {
+  left: 0;
 }
 
 h1,
@@ -42,10 +94,24 @@ h4,
 h5,
 h6 {
   font-family: "Geist", sans-serif;
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
 }
 
-body {
-  overflow: hidden;
+/* overflow:hidden is intentionally removed here.
+   ScrollSmoother controls scroll via #smooth-wrapper, not body.
+   AboutPage and other pages need body scroll to work normally. */
+html {
+  overflow-x: hidden;
+}
+
+/* Prevent sticky hover states on touch devices */
+@media (hover: none) {
+  a:hover,
+  button:hover {
+    color: inherit;
+  }
 }
 
 a {
@@ -83,12 +149,16 @@ main {
 body {
   margin: 0;
   height: auto;
-  background-color: #050810;
+  background-color: #0a0e17;
   flex-grow: 1;
   --cWidth: calc(100% - 30px);
   --cMaxWidth: 1920px;
   max-width: 100vw;
   overflow-x: hidden;
+  overflow-y: auto;
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-relaxed);
+  letter-spacing: var(--ls-normal);
 }
 
 .main-body {
@@ -131,15 +201,15 @@ body {
 }
 
 .techstack h2 {
-  font-size: clamp(50px, 6vw, 70px);
+  font-size: var(--fs-h1);
   text-align: center;
   position: absolute;
   width: 100%;
   top: 120px;
   left: 0;
-  font-weight: 400;
+  font-weight: var(--fw-semibold);
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--ls-tight);
   color: #f5f3f7;
 }
 

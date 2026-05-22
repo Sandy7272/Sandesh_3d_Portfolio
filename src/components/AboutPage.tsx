@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { resume } from "../data/resume";
 import {
@@ -98,6 +98,7 @@ const strategyCards: StrategyCard[] = [
 const AboutPage = () => {
   const navigate = useNavigate();
   const revealRefs = useRef<HTMLElement[]>([]);
+  const [isDark, setIsDark] = useState(true);
 
   // Override body styles for the About page (global CSS sets overflow:hidden for 3D home)
   useEffect(() => {
@@ -106,14 +107,14 @@ const AboutPage = () => {
     const prevBg = document.body.style.backgroundColor;
     document.body.style.overflow = "auto";
     document.body.style.overflowY = "auto";
-    document.body.style.backgroundColor = "#050810";
+    document.body.style.backgroundColor = isDark ? "#050810" : "#f5f3f7";
     window.scrollTo(0, 0);
     return () => {
       document.body.style.overflow = prevOverflow;
       document.body.style.overflowY = prevOverflowY;
       document.body.style.backgroundColor = prevBg;
     };
-  }, []);
+  }, [isDark]);
 
   // Scroll reveal observer
   useEffect(() => {
@@ -143,7 +144,7 @@ const AboutPage = () => {
   };
 
   return (
-    <div className="ap-root">
+    <div className={`ap-root ${isDark ? '' : 'ap-light'}`}>
       {/* ── BACK NAV ── */}
       <nav className="ap-back-nav">
         <button className="ap-back-btn" onClick={() => navigate("/")}>
@@ -412,6 +413,27 @@ const AboutPage = () => {
             </div>
           </div>
         </footer>
+      </div>
+
+      {/* ── THEME TOGGLE ── */}
+      <div className="ap-theme-toggle-container">
+        <button 
+          className={`ap-theme-btn ${isDark ? 'active' : ''}`} 
+          onClick={() => setIsDark(true)}
+          aria-label="Dark Mode"
+        >
+          <span className="ap-theme-icon">🌙</span>
+          <span className="ap-theme-text">Dark</span>
+        </button>
+        <button 
+          className={`ap-theme-btn ${!isDark ? 'active' : ''}`} 
+          onClick={() => setIsDark(false)}
+          aria-label="Light Mode"
+        >
+          <span className="ap-theme-icon">☀️</span>
+          <span className="ap-theme-text">Light</span>
+        </button>
+        <div className={`ap-theme-slider ${isDark ? 'dark' : 'light'}`} />
       </div>
     </div>
   );

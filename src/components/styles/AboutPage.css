@@ -19,7 +19,7 @@
   --ap-dark: #1e293b;
   --ap-radius: 16px;
   --ap-container: 1200px;
-  --ap-font-display: 'Outfit', sans-serif;
+  --ap-font-display: 'Geist', sans-serif;
   --ap-font-body: 'Geist', sans-serif;
 }
 
@@ -77,9 +77,9 @@
   align-items: center;
   gap: 8px;
   font-family: var(--ap-font-body);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-widest);
   text-transform: uppercase;
   color: var(--ap-text);
   background: none;
@@ -110,9 +110,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide);
   color: var(--ap-text-muted);
 }
 
@@ -151,21 +151,21 @@
 
 .ap-hero-label {
   font-family: var(--ap-font-display);
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 900;
+  font-size: var(--fs-hero);
+  font-weight: var(--fw-bold);
   text-transform: uppercase;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
   color: var(--ap-text);
   margin-bottom: 24px;
 }
 
 .ap-hero-name {
   font-family: var(--ap-font-display);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-semibold);
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: var(--ls-widest);
   color: var(--ap-text);
   margin-bottom: 20px;
   position: relative;
@@ -183,8 +183,9 @@
 }
 
 .ap-hero-bio {
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  font-weight: var(--fw-light);
   color: var(--ap-text-muted);
   max-width: 480px;
   margin-bottom: 32px;
@@ -252,18 +253,19 @@
 
 .ap-section-title {
   font-family: var(--ap-font-display);
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 800;
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-semibold);
   text-transform: uppercase;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
   color: var(--ap-text);
   margin-bottom: 16px;
 }
 
 .ap-section-desc {
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  font-weight: var(--fw-light);
   color: var(--ap-text-muted);
   max-width: 560px;
 }
@@ -300,17 +302,17 @@
 
 .ap-service-num {
   font-family: var(--ap-font-display);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
   color: var(--ap-accent);
   min-width: 32px;
 }
 
 .ap-service-name {
   font-family: var(--ap-font-display);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   color: var(--ap-text);
   flex: 1;
@@ -368,30 +370,32 @@
 
 .ap-journey-company {
   font-family: var(--ap-font-display);
-  font-size: 16px;
-  font-weight: 700;
+  font-size: var(--fs-body-lg);
+  font-weight: var(--fw-semibold);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ls-wide);
   color: var(--ap-text);
 }
 
 .ap-journey-when {
-  font-size: 13px;
+  font-size: var(--fs-label);
+  font-weight: var(--fw-medium);
   color: var(--ap-text-light);
   margin-top: 4px;
 }
 
 .ap-journey-role {
   font-family: var(--ap-font-display);
-  font-size: 15px;
-  font-weight: 600;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
   color: var(--ap-text);
   margin-bottom: 8px;
 }
 
 .ap-journey-desc {
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-relaxed);
+  font-weight: var(--fw-light);
   color: var(--ap-text-muted);
 }
 
@@ -850,4 +854,312 @@
     padding: 10px 18px;
     font-size: 13px;
   }
+}
+
+/* ═══════════════════════
+   THEME TOGGLE BUTTON
+   ═══════════════════════ */
+.ap-theme-toggle-container {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 99px;
+  border: 1px solid var(--ap-border);
+  background: rgba(10, 14, 23, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.ap-theme-toggle-container:hover {
+  transform: translateX(-50%) translateY(-2px);
+  border-color: var(--ap-accent);
+}
+
+.ap-theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 99px;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.3s ease, transform 0.2s ease;
+  font-family: var(--ap-font-body);
+}
+
+.ap-theme-btn:active {
+  transform: scale(0.95);
+}
+
+.ap-theme-icon {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.ap-theme-btn:hover .ap-theme-icon {
+  transform: scale(1.15);
+}
+
+.ap-theme-text {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ap-text-muted);
+  transition: color 0.3s ease;
+}
+
+.ap-theme-btn.active .ap-theme-text {
+  color: #050810;
+}
+
+.ap-theme-slider {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: calc(50% - 4px);
+  background: var(--ap-accent);
+  border-radius: 99px;
+  z-index: 1;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.ap-theme-slider.dark {
+  transform: translateX(0);
+}
+
+.ap-theme-slider.light {
+  transform: translateX(100%);
+}
+
+/* ═══════════════════════
+   LIGHT THEME OVERRIDES
+   ═══════════════════════ */
+.ap-root.ap-light {
+  --ap-bg: #f5f3f7;
+  --ap-bg-alt: #eae7ed;
+  --ap-text: #1a1a2e;
+  --ap-text-muted: #4a4a6a;
+  --ap-text-light: #6b6b8a;
+  --ap-accent: #6a71df;
+  --ap-accent-light: #5a61cf;
+  --ap-border: rgba(106, 113, 223, 0.2);
+  --ap-border-light: rgba(0, 0, 0, 0.08);
+  --ap-card-bg: #eae7ed;
+  --ap-dark: #d4d0da;
+  background: var(--ap-bg);
+  color: var(--ap-text);
+}
+
+/* Nav */
+.ap-root.ap-light .ap-back-nav {
+  background: rgba(245, 243, 247, 0.9);
+  border-bottom-color: var(--ap-border);
+}
+
+.ap-root.ap-light .ap-back-btn {
+  color: var(--ap-text);
+  border-color: var(--ap-border);
+}
+
+.ap-root.ap-light .ap-back-btn:hover {
+  background: var(--ap-accent);
+  color: #fff;
+  border-color: var(--ap-accent);
+}
+
+/* Hero */
+.ap-root.ap-light .ap-hero {
+  border-bottom-color: var(--ap-border);
+}
+
+.ap-root.ap-light .ap-hero-label {
+  color: var(--ap-text);
+}
+
+.ap-root.ap-light .ap-hero-name {
+  color: var(--ap-text);
+}
+
+.ap-root.ap-light .ap-hero-name::after {
+  background: var(--ap-accent);
+}
+
+.ap-root.ap-light .ap-hero-bio {
+  color: var(--ap-text-muted);
+}
+
+.ap-root.ap-light .ap-social-icon {
+  color: var(--ap-text);
+  border-color: var(--ap-border);
+}
+
+.ap-root.ap-light .ap-social-icon:hover {
+  background: var(--ap-accent);
+  color: #fff;
+  border-color: var(--ap-accent);
+}
+
+.ap-root.ap-light .ap-hero-image {
+  filter: grayscale(0%);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Sections */
+.ap-root.ap-light .ap-services,
+.ap-root.ap-light .ap-journey,
+.ap-root.ap-light .ap-tech,
+.ap-root.ap-light .ap-strategy {
+  border-bottom-color: var(--ap-border);
+}
+
+.ap-root.ap-light .ap-section-title {
+  color: var(--ap-text);
+}
+
+.ap-root.ap-light .ap-section-desc {
+  color: var(--ap-text-muted);
+}
+
+/* Services */
+.ap-root.ap-light .ap-service-item {
+  border-bottom-color: var(--ap-border-light);
+}
+
+.ap-root.ap-light .ap-service-item:first-child {
+  border-top-color: var(--ap-border-light);
+}
+
+.ap-root.ap-light .ap-service-num {
+  color: var(--ap-accent);
+}
+
+.ap-root.ap-light .ap-service-name {
+  color: var(--ap-text);
+}
+
+/* Journey */
+.ap-root.ap-light .ap-journey-item {
+  border-bottom-color: var(--ap-border-light);
+}
+
+.ap-root.ap-light .ap-journey-company {
+  color: var(--ap-text);
+}
+
+.ap-root.ap-light .ap-journey-role {
+  color: var(--ap-text);
+}
+
+.ap-root.ap-light .ap-journey-desc {
+  color: var(--ap-text-muted);
+}
+
+.ap-root.ap-light .ap-journey-when {
+  color: var(--ap-accent);
+}
+
+/* Tech pills */
+.ap-root.ap-light .ap-tech-pill {
+  background: #fff;
+  border-color: var(--ap-border);
+  color: var(--ap-text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.ap-root.ap-light .ap-tech-pill:hover {
+  border-color: var(--ap-accent);
+  background: rgba(106, 113, 223, 0.06);
+  box-shadow: 0 4px 16px rgba(106, 113, 223, 0.12);
+}
+
+/* Strategy cards */
+.ap-root.ap-light .ap-card-dark {
+  background: #d4d0da;
+  color: var(--ap-text);
+}
+
+.ap-root.ap-light .ap-card-accent {
+  background: var(--ap-accent);
+  color: #fff;
+}
+
+.ap-root.ap-light .ap-card-light {
+  background: #fff;
+  color: var(--ap-text);
+}
+
+/* CTA */
+.ap-root.ap-light .ap-cta-title {
+  color: var(--ap-text);
+}
+
+.ap-root.ap-light .ap-cta-subtitle {
+  color: var(--ap-text-muted);
+}
+
+.ap-root.ap-light .ap-cta-btn {
+  background: var(--ap-accent);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(106, 113, 223, 0.2);
+}
+
+.ap-root.ap-light .ap-cta-btn:hover {
+  background: #5a61cf;
+  box-shadow: 0 8px 30px rgba(106, 113, 223, 0.3);
+}
+
+.ap-root.ap-light .ap-cta-portrait img {
+  border-color: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.ap-root.ap-light .ap-cta-badge {
+  background: var(--ap-accent);
+  border-color: var(--ap-bg);
+}
+
+/* Footer */
+.ap-root.ap-light .ap-footer {
+  border-top-color: var(--ap-border);
+}
+
+.ap-root.ap-light .ap-footer-left {
+  color: var(--ap-text-light);
+}
+
+.ap-root.ap-light .ap-footer-left span {
+  color: var(--ap-text);
+}
+
+.ap-root.ap-light .ap-footer-social {
+  border-color: var(--ap-border);
+  color: var(--ap-text-muted);
+}
+
+.ap-root.ap-light .ap-footer-social:hover {
+  background: var(--ap-accent);
+  color: #fff;
+  border-color: var(--ap-accent);
+}
+
+/* Toggle button in light mode */
+.ap-root.ap-light .ap-theme-toggle-container {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--ap-border);
+  box-shadow: 0 10px 30px rgba(106, 113, 223, 0.08), 0 0 0 1px rgba(106, 113, 223, 0.15);
+}
+
+.ap-root.ap-light .ap-theme-btn.active .ap-theme-text {
+  color: #ffffff;
 }

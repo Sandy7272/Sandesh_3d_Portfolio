@@ -19,9 +19,9 @@
   z-index: 9;
 }
 .what-box h2 {
-  font-size: calc(4vw + 25px);
-  line-height: calc(4vw + 20px);
-  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-semibold);
   margin-right: 10%;
   margin-bottom: 100px;
 }
@@ -34,10 +34,10 @@
 }
 .what-box-in {
   flex-direction: column;
-  height: 500px;
+  height: 600px;
   margin-left: 200px;
   position: relative;
-  display: none;
+  display: flex;
 }
 .what-content {
   width: 450px;
@@ -46,7 +46,7 @@
   transition: 0.5s;
   /* border: 0.5px dashed rgba(255, 255, 255, 0.3); */
   position: relative;
-  padding: 50px;
+  padding: 35px 50px;
   box-sizing: border-box;
 }
 
@@ -63,42 +63,25 @@
   padding: 10px 50px;
 }
 .what-content h3 {
-  font-size: 35px;
-  letter-spacing: 1px;
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-tight);
   margin: 0;
 }
 .what-content p {
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 200;
-  letter-spacing: 0.7px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  font-weight: var(--fw-light);
+  letter-spacing: var(--ls-normal);
 }
 .what-content h4 {
-  font-weight: 300;
-  letter-spacing: 1px;
+  font-weight: var(--fw-light);
+  letter-spacing: var(--ls-normal);
   margin: 0px;
-  font-size: 14px;
+  font-size: var(--fs-body-sm);
   opacity: 0.3;
 }
 .what-content-in {
-  opacity: 0;
-  animation: whatFlicker 0.5s 1 forwards;
-  animation-delay: 1s;
-}
-@keyframes whatFlicker {
-  0%,
-  25%,
-  35%,
-  60% {
-    opacity: 0;
-  }
-
-  30%,
-  50%,
-  40%,
-  100% {
-    opacity: 1;
-  }
+  opacity: 1;
 }
 .what-content::before,
 .what-corner::before,
@@ -199,7 +182,7 @@
   animation: whatBorders 1.2s 1 forwards;
 }
 .what-border2 svg {
-  height: 500px;
+  height: 600px;
   top: 50%;
   transform: translateY(-50%);
   position: absolute;
@@ -209,10 +192,10 @@
   overflow: hidden;
 }
 .what-content-in h5 {
-  font-weight: 300;
+  font-weight: var(--fw-light);
   opacity: 0.5;
-  font-size: 12px;
-  letter-spacing: 1px;
+  font-size: var(--fs-tiny);
+  letter-spacing: var(--ls-widest);
   font-family: "Geist", sans-serif;
   margin-bottom: 5px;
 }
@@ -232,8 +215,8 @@
   flex-wrap: wrap;
 }
 .what-tags {
-  font-size: 13px;
-  font-weight: 400;
+  font-size: var(--fs-label);
+  font-weight: var(--fw-regular);
   padding: 2px 7px;
   background-color: rgba(255, 255, 255, 0.15);
   border: 1px solid #ffffff50;
@@ -249,7 +232,7 @@
     margin-right: 20%;
   }
   .what-box-in {
-    height: 400px;
+    height: 480px;
   }
   .what-content h3 {
     font-size: 28px;
@@ -290,7 +273,7 @@
     padding-bottom: 50px;
   }
   .what-box-in {
-    height: 500px;
+    height: 550px;
     margin-left: -50px;
   }
   .what-content {
@@ -326,7 +309,7 @@
     justify-content: left;
   }
   .what-box:last-child {
-    height: 500px;
+    height: 550px;
   }
   .what-box {
     width: 500px;
@@ -338,7 +321,7 @@
   }
   .what-box-in {
     margin-left: 0px;
-    height: 450px;
+    height: 550px;
   }
   .what-content h5,
   .what-content-flex {

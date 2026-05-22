@@ -70,20 +70,18 @@ const WhatIDo = () => {
             </div>
             <div className="what-corner"></div>
             <div className="what-content-in">
-              <h3>AI & AUTOMATION</h3>
-              <h4>Workflow Intelligence for Organizations</h4>
+              <h3>3D & MOTION GRAPHICS</h3>
+              <h4>Visualizing Concepts</h4>
               <p>
-                AI specialist helping organizations automate workflows—internal ops
-                and customer-facing—so teams ship faster with less manual work.
+                Specializing in 3D design, motion graphics, and visual effects. Delivering high-quality assets and animations for enterprise and commercial clients.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">LLMs &amp; agents</div>
-                <div className="what-tags">Workflow design</div>
-                <div className="what-tags">RAG &amp; retrieval</div>
-                <div className="what-tags">Evals &amp; guardrails</div>
-                <div className="what-tags">Integrations</div>
-                <div className="what-tags">Product strategy</div>
+                <div className="what-tags">Blender</div>
+                <div className="what-tags">After Effects</div>
+                <div className="what-tags">Premiere Pro</div>
+                <div className="what-tags">3ds Max</div>
+                <div className="what-tags">Substance Painter</div>
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -96,21 +94,19 @@ const WhatIDo = () => {
             </div>
             <div className="what-corner"></div>
             <div className="what-content-in">
-              <h3>BUILD &amp; SCALE</h3>
-              <h4>Shipping AI in Production</h4>
+              <h3>PRODUCT & AI SYSTEMS</h3>
+              <h4>Building Robust Solutions</h4>
               <p>
-                I build the systems behind it: APIs, data, voice/real-time, and
-                full-stack products—production-ready, not slide decks.
+                Building production-grade systems and AI-powered workflows. From REST APIs to custom 3D web viewers—automating operations and scaling output.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
+                <div className="what-tags">React</div>
                 <div className="what-tags">Node.js</div>
                 <div className="what-tags">Python</div>
-                <div className="what-tags">REST &amp; real-time APIs</div>
                 <div className="what-tags">PostgreSQL</div>
-                <div className="what-tags">MongoDB</div>
-                <div className="what-tags">React</div>
-                <div className="what-tags">Cloud &amp; infra</div>
+                <div className="what-tags">Three.js</div>
+                <div className="what-tags">LLMs</div>
               </div>
               <div className="what-arrow"></div>
             </div>
