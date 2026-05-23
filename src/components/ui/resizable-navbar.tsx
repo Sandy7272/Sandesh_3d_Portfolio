@@ -54,12 +54,25 @@ export const Navbar = ({ children, className, onVisibilityChange }: NavbarProps)
   const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
+    let ticking = false;
+    let last = false;
     const handleScroll = () => {
-      const scrolled = window.scrollY > 60;
-      setVisible(scrolled);
-      onVisibilityChange?.(scrolled);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        // hysteresis prevents jitter near threshold
+        const next = last ? y > 30 : y > 80;
+        if (next !== last) {
+          last = next;
+          setVisible(next);
+          onVisibilityChange?.(next);
+        }
+        ticking = false;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [onVisibilityChange]);
 
