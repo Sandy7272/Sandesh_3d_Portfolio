@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
+import "./styles/Navbar.css";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import "./styles/Navbar.css";
 
