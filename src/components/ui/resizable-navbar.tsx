@@ -154,17 +154,19 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   return (
     <motion.div
       animate={{
-        width: visible ? "240px" : "calc(100vw - 2rem)",
-        borderRadius: "9999px",
-        y: visible ? 20 : 0,
+        width: visible ? "260px" : "calc(100vw - 2rem)",
+        borderRadius: 9999,
+        y: visible ? 16 : 0,
       }}
       transition={{
         type: "spring",
-        stiffness: 200,
-        damping: 26,
+        stiffness: 240,
+        damping: 30,
+        mass: 0.9,
       }}
+      style={{ willChange: "width, transform" }}
       className={cn(
-        "relative z-50 mx-auto flex flex-col items-center justify-between bg-neutral-950/90 backdrop-blur-lg border border-white/[0.08] shadow-xl px-3 py-2 lg:hidden",
+        "relative z-50 mx-auto flex flex-col items-center justify-between bg-neutral-950/80 backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.35)] px-3 py-2 lg:hidden transition-[padding] duration-300 ease-out",
         visible && "py-1.5",
         className,
       )}
