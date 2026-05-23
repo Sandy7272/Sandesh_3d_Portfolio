@@ -93,55 +93,68 @@ const Navbar = () => {
       <ResizableNavbar onVisibilityChange={handleVisibilityChange}>
         {/* Desktop Navigation */}
         <NavBody>
-          {!isScrolled ? (
-            <>
-              {/* Left: Portrait with green availability dot */}
-              <div className="relative z-20 flex-shrink-0">
+          <AnimatePresence mode="wait" initial={false}>
+            {!isScrolled ? (
+              <motion.div
+                key="nav-full"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-center justify-between w-full gap-4"
+              >
+                {/* Left: Portrait with availability dot */}
+                <div className="relative z-20 flex-shrink-0">
+                  <img
+                    src={sandeshPortrait}
+                    alt="Sandesh Gadakh"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-white/10"
+                  />
+                  <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-emerald-400 border-[2.5px] border-neutral-950 shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                </div>
+
+                {/* Center: Nav links */}
+                <NavItems items={navItems} onItemClick={handleScroll} />
+
+                {/* Right: Contact CTA */}
+                <a
+                  href="#contact"
+                  onClick={(e) => handleScroll(e, "#contact")}
+                  className="relative z-20 flex-shrink-0 px-5 py-2 bg-white text-neutral-950 rounded-full font-semibold text-sm tracking-tight hover:bg-neutral-100 hover:shadow-[0_4px_20px_rgba(255,255,255,0.15)] active:scale-[0.97] transition-all duration-200 cursor-pointer"
+                  data-cursor="disable"
+                >
+                  Contact
+                </a>
+              </motion.div>
+            ) : (
+              <motion.a
+                key="nav-pill"
+                href="#contact"
+                onClick={(e) => handleScroll(e, "#contact")}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-center justify-center gap-3 w-full py-1 group"
+                data-cursor="disable"
+              >
                 <img
                   src={sandeshPortrait}
                   alt="Sandesh Gadakh"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-white/10"
+                  className="w-7 h-7 rounded-full object-cover border border-white/20 shadow-md group-hover:scale-105 transition-transform duration-300"
                 />
-                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-lime-400 border-[2.5px] border-neutral-950 shadow-[0_0_8px_rgba(163,230,53,0.4)]" />
-              </div>
-
-              {/* Center: Nav links */}
-              <NavItems items={navItems} onItemClick={handleScroll} />
-
-              {/* Right: White Contact button */}
-              <a
-                href="#contact"
-                onClick={(e) => handleScroll(e, "#contact")}
-                className="relative z-20 flex-shrink-0 px-6 py-2 bg-white text-black rounded-full font-semibold text-sm hover:bg-neutral-200 transition duration-200 cursor-pointer"
-                data-cursor="disable"
-              >
-                Contact
-              </a>
-            </>
-          ) : (
-            <div className="flex items-center justify-center w-full">
-              <a
-                href="#contact"
-                onClick={(e) => handleScroll(e, "#contact")}
-                className="flex items-center gap-3 group py-1"
-                data-cursor="disable"
-              >
-                <img
-                  src={sandeshPortrait}
-                  alt="Sandesh Gadakh"
-                  className="w-7 h-7 rounded-full object-cover border border-white/20 shadow-md group-hover:scale-105 transition-all duration-300"
-                />
-                <span className="text-[13px] font-medium tracking-wide text-neutral-200 group-hover:text-white transition duration-200">
+                <span className="text-[13px] font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors duration-200">
                   Available for work
                 </span>
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
                 </span>
-              </a>
-            </div>
-          )}
+              </motion.a>
+            )}
+          </AnimatePresence>
         </NavBody>
+
 
         {/* Mobile Navigation */}
         <MobileNav>
