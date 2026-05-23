@@ -4,8 +4,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import "./styles/Navbar.css";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
-import "./styles/Navbar.css";
 
 import {
   Navbar as ResizableNavbar,
