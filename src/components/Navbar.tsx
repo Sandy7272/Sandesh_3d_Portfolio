@@ -158,78 +158,90 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         <MobileNav>
-          {!isScrolled ? (
-            <>
-              <MobileNavHeader>
-                <div className="relative flex-shrink-0">
-                  <img
-                    src={sandeshPortrait}
-                    alt="Sandesh Gadakh"
-                    className="w-9 h-9 rounded-full object-cover border-2 border-white/10"
-                  />
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-lime-400 border-2 border-neutral-950" />
-                </div>
-                <MobileNavToggle
-                  isOpen={isMobileMenuOpen}
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                />
-              </MobileNavHeader>
-
-              <MobileNavMenu
-                isOpen={isMobileMenuOpen}
-                onClose={() => setIsMobileMenuOpen(false)}
+          <AnimatePresence mode="wait" initial={false}>
+            {!isScrolled ? (
+              <motion.div
+                key="mnav-full"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full"
               >
-                {navItems.map((item, idx) => (
-                  <a
-                    key={`mobile-link-${idx}`}
-                    href={item.link}
-                    onClick={(e) => {
-                      setIsMobileMenuOpen(false);
-                      handleScroll(e, item.link);
-                    }}
-                    className="relative text-lg font-medium text-neutral-300 hover:text-white transition duration-200"
-                  >
-                    <span className="block">{item.name}</span>
-                  </a>
-                ))}
-                <div className="flex w-full flex-col gap-4 mt-4">
-                  <a
-                    href="#contact"
-                    className="w-full py-2.5 bg-white text-black rounded-full font-semibold text-sm text-center hover:bg-neutral-200 transition duration-200"
-                    onClick={(e) => {
-                      setIsMobileMenuOpen(false);
-                      handleScroll(e, "#contact");
-                    }}
-                    data-cursor="disable"
-                  >
-                    Contact
-                  </a>
-                </div>
-              </MobileNavMenu>
-            </>
-          ) : (
-            <div className="flex items-center justify-center w-full">
-              <a
+                <MobileNavHeader>
+                  <div className="relative flex-shrink-0">
+                    <img
+                      src={sandeshPortrait}
+                      alt="Sandesh Gadakh"
+                      className="w-9 h-9 rounded-full object-cover border-2 border-white/10"
+                    />
+                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-neutral-950" />
+                  </div>
+                  <MobileNavToggle
+                    isOpen={isMobileMenuOpen}
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  />
+                </MobileNavHeader>
+
+                <MobileNavMenu
+                  isOpen={isMobileMenuOpen}
+                  onClose={() => setIsMobileMenuOpen(false)}
+                >
+                  {navItems.map((item, idx) => (
+                    <a
+                      key={`mobile-link-${idx}`}
+                      href={item.link}
+                      onClick={(e) => {
+                        setIsMobileMenuOpen(false);
+                        handleScroll(e, item.link);
+                      }}
+                      className="relative text-lg font-medium text-neutral-300 hover:text-white transition-colors duration-200"
+                    >
+                      <span className="block">{item.name}</span>
+                    </a>
+                  ))}
+                  <div className="flex w-full flex-col gap-4 mt-4">
+                    <a
+                      href="#contact"
+                      className="w-full py-2.5 bg-white text-neutral-950 rounded-full font-semibold text-sm text-center hover:bg-neutral-100 active:scale-[0.97] transition-all duration-200"
+                      onClick={(e) => {
+                        setIsMobileMenuOpen(false);
+                        handleScroll(e, "#contact");
+                      }}
+                      data-cursor="disable"
+                    >
+                      Contact
+                    </a>
+                  </div>
+                </MobileNavMenu>
+              </motion.div>
+            ) : (
+              <motion.a
+                key="mnav-pill"
                 href="#contact"
                 onClick={(e) => handleScroll(e, "#contact")}
-                className="flex items-center gap-3 group py-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-center justify-center gap-3 w-full py-1 group"
                 data-cursor="disable"
               >
                 <img
                   src={sandeshPortrait}
                   alt="Sandesh Gadakh"
-                  className="w-7 h-7 rounded-full object-cover border border-white/20 shadow-md group-hover:scale-105 transition-all duration-300"
+                  className="w-7 h-7 rounded-full object-cover border border-white/20 shadow-md group-hover:scale-105 transition-transform duration-300"
                 />
-                <span className="text-[13px] font-medium tracking-wide text-neutral-200 group-hover:text-white transition duration-200">
+                <span className="text-[13px] font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors duration-200">
                   Available for work
                 </span>
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
                 </span>
-              </a>
-            </div>
-          )}
+              </motion.a>
+            )}
+          </AnimatePresence>
         </MobileNav>
       </ResizableNavbar>
 
