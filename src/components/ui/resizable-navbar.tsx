@@ -97,16 +97,18 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   return (
     <motion.div
       animate={{
-        width: visible ? "260px" : "700px",
-        y: visible ? 20 : 0,
+        width: visible ? "300px" : "720px",
+        y: visible ? 16 : 0,
       }}
       transition={{
         type: "spring",
-        stiffness: 200,
-        damping: 26,
+        stiffness: 240,
+        damping: 30,
+        mass: 0.9,
       }}
+      style={{ willChange: "width, transform" }}
       className={cn(
-        "relative z-[60] mx-auto hidden flex-row items-center justify-between self-start rounded-full bg-neutral-950/90 backdrop-blur-lg border border-white/[0.08] shadow-xl lg:flex",
+        "relative z-[60] mx-auto hidden flex-row items-center justify-between self-start rounded-full bg-neutral-950/80 backdrop-blur-xl border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.35)] lg:flex transition-[padding] duration-300 ease-out",
         visible ? "px-3 py-1.5" : "px-3 py-2.5",
         className,
       )}
