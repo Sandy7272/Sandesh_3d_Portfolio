@@ -3,6 +3,7 @@ import {
   PropsWithChildren,
   useContext,
   useState,
+  useEffect,
 } from "react";
 import Loading from "../components/Loading";
 
@@ -18,24 +19,28 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loading, setLoading] = useState(0);
 
-  const value = {
-    isLoading,
-    setIsLoading,
-    setLoading,
-  };
+  useEffect(() => {
+  }, []);
 
   return (
-    <LoadingContext.Provider value={value as LoadingType}>
+    <LoadingContext.Provider value={{ isLoading, setIsLoading, setLoading } as LoadingType}>
       {isLoading && <Loading percent={loading} />}
       <main className="main-body">{children}</main>
     </LoadingContext.Provider>
   );
 };
 
-export const useLoading = () => {
+/**
+ * Safe to call outside of LoadingProvider (e.g. Navbar on the About page).
+ * Returns a no-op default so the component tree doesn't crash.
+ */
+const LOADING_DEFAULTS: LoadingType = {
+  isLoading: false,
+  setIsLoading: () => {},
+  setLoading: () => {},
+};
+
+export const useLoading = (): LoadingType => {
   const context = useContext(LoadingContext);
-  if (!context) {
-    throw new Error("useLoading must be used within a LoadingProvider");
-  }
-  return context;
+  return context ?? LOADING_DEFAULTS;
 };

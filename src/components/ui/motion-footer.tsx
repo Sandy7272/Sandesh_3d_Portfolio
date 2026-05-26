@@ -3,6 +3,7 @@
 import { resume } from "../../data/resume";
 import { FaGithub, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { MdArrowOutward } from "react-icons/md";
+import { motion } from "framer-motion";
 
 export function CinematicFooter() {
   const year = new Date().getFullYear();
@@ -75,7 +76,7 @@ export function CinematicFooter() {
           letter-spacing: 0.14em;
           text-transform: uppercase;
           color: #0a0e17;
-          background: #5eead4;
+          background: var(--accent);
           text-decoration: none;
           padding: 20px 44px;
           border-radius: 99px;
@@ -127,7 +128,7 @@ export function CinematicFooter() {
           padding: 6px 10px;
         }
         .cf-nav a:hover {
-          color: #5eead4;
+          color: var(--accent);
         }
         .cf-nav-dot {
           width: 4px;
@@ -206,9 +207,9 @@ export function CinematicFooter() {
           transition: all 0.3s ease;
         }
         .cf-social-pill:hover {
-          color: #5eead4;
-          border-color: rgba(94,234,212,0.3);
-          background: rgba(94,234,212,0.05);
+          color: var(--accent);
+          border-color: var(--accent-glow);
+          background: var(--accent-muted);
         }
 
         .cf-credit {
@@ -261,7 +262,13 @@ export function CinematicFooter() {
       `}</style>
 
       {/* ── HERO CTA ── */}
-      <div className="cf-hero">
+      <motion.div 
+        className="cf-hero"
+        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
         <p className="cf-eyebrow">Ready to work?</p>
         <h2 className="cf-big-text">CONTACT ME</h2>
         <div className="cf-cta-wrap">
@@ -277,7 +284,7 @@ export function CinematicFooter() {
           Got exciting ideas? Let's connect and create something extraordinary
           together.
         </p>
-      </div>
+      </motion.div>
 
       {/* ── NAV ROW ── */}
       <div className="cf-nav">

@@ -66,10 +66,11 @@ const Scene = () => {
           headBone = character.getObjectByName("spine.006") || null;
           screenLight = character.getObjectByName("screenlight") || null;
           progress.loaded().then(() => {
+            const delay = 2500;
             introTimer = window.setTimeout(() => {
               light.turnOnLights();
               animations.startIntro();
-            }, 2500);
+            }, delay);
           });
         }
       }).catch((error) => {
@@ -80,19 +81,31 @@ const Scene = () => {
         interpolation = { x: 0.1, y: 0.2 };
 
       const onMouseMove = (event: MouseEvent) => {
-        handleMouseMove(event, (x, y) => (mouse = { x, y }));
+        // Only track mouse when near the top of the page (Landing section)
+        if (window.scrollY < window.innerHeight) {
+          handleMouseMove(event, (x, y) => (mouse = { x, y }));
+        } else {
+          mouse = { x: 0, y: 0 };
+        }
       };
+
       let debounce: number | undefined;
       let touchMoveHandler: ((e: TouchEvent) => void) | null = null;
       const onResize = () => handleResize(renderer, camera, canvasDiv, character);
+      
       const onTouchStart = (event: TouchEvent) => {
         const element = event.target as HTMLElement;
         debounce = setTimeout(() => {
           if (touchMoveHandler) {
             element?.removeEventListener("touchmove", touchMoveHandler);
           }
-          touchMoveHandler = (e: TouchEvent) =>
-            handleTouchMove(e, (x, y) => (mouse = { x, y }));
+          touchMoveHandler = (e: TouchEvent) => {
+            if (window.scrollY < window.innerHeight) {
+              handleTouchMove(e, (x, y) => (mouse = { x, y }));
+            } else {
+              mouse = { x: 0, y: 0 };
+            }
+          };
           element?.addEventListener("touchmove", touchMoveHandler);
         }, 200);
       };

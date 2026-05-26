@@ -1,15 +1,8 @@
 import { MdArrowOutward } from "react-icons/md";
 import { workCategories } from "../data/workPortfolio";
 import FlowArt, { FlowSection } from "./ui/story-scroll";
+// useTheme removed
 import "./styles/Work.css";
-
-/* ── colour palette per case study ──────── */
-const sectionThemes = [
-  { bg: "#0a0e17", text: "#eae5ec", accent: "#5eead4", hrColor: "rgba(94,234,212,0.25)" },
-  { bg: "#0d1f17", text: "#eae5ec", accent: "#34d399", hrColor: "rgba(52,211,153,0.25)" },
-  { bg: "#1a1008", text: "#eae5ec", accent: "#fb923c", hrColor: "rgba(251,146,60,0.25)" },
-  { bg: "#150d20", text: "#eae5ec", accent: "#c084fc", hrColor: "rgba(192,132,252,0.25)" },
-];
 
 const Work = () => {
   const openCategory = (slug: string) => {
@@ -22,21 +15,24 @@ const Work = () => {
         {/* ── Intro slide ── */}
         <FlowSection
           aria-label="Work intro"
-          style={{ backgroundColor: "#050810", color: "#eae5ec" }}
+          style={{
+            backgroundColor: "var(--bg-primary)",
+            color: "var(--text-primary)",
+          }}
         >
           <p
             className="text-xs font-bold uppercase tracking-[0.2em]"
-            style={{ color: "#5eead4" }}
+            style={{ color: "var(--accent)" }}
           >
             <span
               className="inline-block w-2 h-2 rounded-full mr-2"
-              style={{ backgroundColor: "#5eead4" }}
+              style={{ backgroundColor: "var(--accent)" }}
             />
             Selected Case Studies
           </p>
           <hr
-            className="my-[2vw] border-t border-white/10"
-            style={{ borderColor: "rgba(94,234,212,0.15)" }}
+            className="my-[2vw] border-t"
+            style={{ borderColor: "var(--border)" }}
           />
           <div className="flex-1 flex items-center">
             <h2 className="text-[clamp(2.5rem,8vw,8rem)] font-bold leading-[1] uppercase tracking-tight">
@@ -45,7 +41,7 @@ const Work = () => {
           </div>
           <hr
             className="my-[2vw] border-t"
-            style={{ borderColor: "rgba(94,234,212,0.15)" }}
+            style={{ borderColor: "var(--border)" }}
           />
           <p className="max-w-[50ch] text-[clamp(1rem,2vw,1.5rem)] font-normal leading-relaxed opacity-75">
             Four projects that shaped my practice — interactive 3D, video-to-3D
@@ -55,45 +51,49 @@ const Work = () => {
 
         {/* ── One slide per case study ── */}
         {workCategories.map((project, i) => {
-          const theme = sectionThemes[i % sectionThemes.length];
           return (
             <FlowSection
               key={project.slug}
               aria-label={project.label}
               className="cursor-pointer"
               onClick={() => openCategory(project.slug)}
-              style={{ backgroundColor: theme.bg, color: theme.text }}
+              style={{ backgroundColor: "var(--bg-primary)", color: "var(--text-primary)" }}
             >
               {/* eyebrow */}
               <p
                 className="text-xs font-bold uppercase tracking-[0.2em]"
-                style={{ color: theme.accent }}
+                style={{ color: "var(--accent)" }}
               >
                 {String(i + 1).padStart(2, "0")} — {project.context}
               </p>
 
               <hr
                 className="my-[1.5vw] border-t"
-                style={{ borderColor: theme.hrColor }}
+                style={{ borderColor: "var(--border)" }}
               />
 
-              {/* Hero title — grows to fill available space */}
-              <div className="flex-1 flex items-center">
-                <h2 className="text-[clamp(2rem,5vw,5rem)] font-bold leading-[1.1] uppercase tracking-tight" style={{ textWrap: "balance" }}>
-                  {project.label}
-                </h2>
+              {/* Hero title + Image — grows to fill available space */}
+              <div className="flex-1 flex flex-col md:flex-row items-center gap-8 md:gap-16 w-full group">
+                <div className="flex-1 w-full">
+                  <h2 className="text-[clamp(2rem,5vw,5rem)] font-bold leading-[1.1] uppercase tracking-tight" style={{ textWrap: "balance" }}>
+                    {project.label}
+                  </h2>
+                </div>
+                <div className="w-full md:w-[40%] aspect-[4/3] md:aspect-video rounded-2xl overflow-hidden shadow-2xl shrink-0 border transition-all duration-500" style={{ borderColor: "var(--border)" }}>
+                  <img src={project.thumbnail} alt={project.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                </div>
               </div>
 
               <hr
                 className="my-[1.5vw] border-t"
-                style={{ borderColor: theme.hrColor }}
+                style={{ borderColor: "var(--border)" }}
               />
 
               {/* Subtitle + tech pills row */}
               <div className="flex flex-wrap items-center gap-3">
                 <p
                   className="text-[clamp(0.8rem,1.4vw,1rem)] font-semibold uppercase tracking-wider mr-4"
-                  style={{ color: theme.accent }}
+                  style={{ color: "var(--accent)" }}
                 >
                   {project.subtitle}
                 </p>
@@ -102,19 +102,29 @@ const Work = () => {
                     key={t}
                     className="rounded-full px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wider border"
                     style={{
-                      borderColor: theme.accent + "40",
-                      color: theme.accent,
-                      backgroundColor: theme.accent + "10",
+                      borderColor: "var(--border-hover)",
+                      color: "var(--accent)",
+                      backgroundColor: "var(--accent-muted)",
                     }}
                   >
                     {t}
                   </span>
                 ))}
+                
+                {/* Metrics */}
+                <div className="hidden md:flex items-center gap-6 ml-auto">
+                  {project.caseStudy.metrics.slice(0, 2).map((m) => (
+                    <div key={m.label} className="flex flex-col text-right">
+                      <span className="text-[1.25rem] font-bold leading-none mb-1" style={{ color: "var(--accent)" }}>{m.value}</span>
+                      <span className="text-[0.65rem] uppercase tracking-wider opacity-60 max-w-[120px] leading-tight">{m.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <hr
                 className="my-[1.5vw] border-t"
-                style={{ borderColor: theme.hrColor }}
+                style={{ borderColor: "var(--border)" }}
               />
 
               {/* Footer: year + CTA */}
@@ -127,11 +137,7 @@ const Work = () => {
                     e.stopPropagation();
                     openCategory(project.slug);
                   }}
-                  className="group flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 cursor-pointer shrink-0"
-                  style={{
-                    borderColor: theme.accent,
-                    color: theme.accent,
-                  }}
+                  className="btn-secondary group shrink-0"
                   data-cursor="view"
                 >
                   View Case Study
@@ -145,17 +151,20 @@ const Work = () => {
         {/* ── CTA slide ── */}
         <FlowSection
           aria-label="Get in touch"
-          style={{ backgroundColor: "#050810", color: "#eae5ec" }}
+          style={{
+            backgroundColor: "var(--bg-primary)",
+            color: "var(--text-primary)",
+          }}
         >
           <p
             className="text-xs font-bold uppercase tracking-[0.2em]"
-            style={{ color: "#5eead4" }}
+            style={{ color: "var(--accent)" }}
           >
             05 — Let's collaborate
           </p>
           <hr
             className="my-[2vw] border-t"
-            style={{ borderColor: "rgba(94,234,212,0.15)" }}
+            style={{ borderColor: "var(--border)" }}
           />
           <div className="flex-1 flex items-center">
             <h2 className="text-[clamp(2.5rem,8vw,8rem)] font-bold leading-[1] uppercase tracking-tight" style={{ textWrap: "balance" }}>
@@ -166,7 +175,7 @@ const Work = () => {
           </div>
           <hr
             className="my-[2vw] border-t"
-            style={{ borderColor: "rgba(94,234,212,0.15)" }}
+            style={{ borderColor: "var(--border)" }}
           />
           <div className="flex items-end justify-between gap-8">
             <p className="max-w-[50ch] text-[clamp(1rem,2vw,1.5rem)] font-normal leading-relaxed opacity-75">
@@ -175,12 +184,7 @@ const Work = () => {
             </p>
             <a
               href="#contact"
-              className="group flex items-center gap-2 rounded-full border px-8 py-4 text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 shrink-0"
-              style={{
-                borderColor: "#5eead4",
-                color: "#050810",
-                backgroundColor: "#5eead4",
-              }}
+              className="btn-primary group shrink-0"
               data-cursor="disable"
               onClick={(e) => {
                 e.preventDefault();
@@ -200,3 +204,4 @@ const Work = () => {
 };
 
 export default Work;
+

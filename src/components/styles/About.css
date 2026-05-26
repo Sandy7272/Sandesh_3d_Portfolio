@@ -35,7 +35,7 @@
   font-weight: var(--fw-light);
   line-height: var(--lh-base);
   letter-spacing: var(--ls-tight);
-  color: #eae5ec;
+  color: var(--text-secondary);
   margin: 0 0 35px;
 }
 
@@ -57,7 +57,7 @@
   font-family: "Geist", sans-serif;
   font-size: var(--fs-h2);
   font-weight: var(--fw-semibold);
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: var(--lh-tight);
 }
 
@@ -66,7 +66,7 @@
   font-weight: var(--fw-medium);
   text-transform: uppercase;
   letter-spacing: var(--ls-widest);
-  color: rgba(234, 229, 236, 0.45);
+  color: var(--text-tertiary);
   line-height: var(--lh-base);
 }
 
@@ -86,7 +86,7 @@
 }
 
 .am-contact-label {
-  color: rgba(234, 229, 236, 0.45);
+  color: var(--text-tertiary);
   font-weight: var(--fw-medium);
   font-size: var(--fs-tiny);
   text-transform: uppercase;
@@ -95,7 +95,7 @@
 }
 
 .am-contact-val {
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: var(--fw-regular);
 }
 
@@ -114,42 +114,19 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(234, 229, 236, 0.85);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   font-size: 17px;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
 }
 
 .am-socials a:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--accentColor);
-  color: var(--accentColor);
+  background: var(--bg-card-hover);
+  border-color: var(--accent);
+  color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(94, 234, 212, 0.15);
-}
-
-/* Button */
-.am-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(234, 229, 236, 0.9);
-  font-weight: var(--fw-medium);
-  padding: 12px 28px;
-  border-radius: 8px;
-  font-size: var(--fs-body-sm);
-  letter-spacing: var(--ls-wide);
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  font-family: "Geist", sans-serif;
-}
-
-.am-btn:hover {
-  border-color: var(--accentColor);
-  color: var(--accentColor);
-  transform: translateY(-2px);
-  background: rgba(94, 234, 212, 0.03);
+  box-shadow: var(--shadow-glow);
 }
 
 /* Responsive Layout Adjustments */

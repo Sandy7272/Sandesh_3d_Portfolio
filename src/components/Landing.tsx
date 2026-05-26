@@ -47,7 +47,22 @@ const Landing = ({ children }: PropsWithChildren) => {
       </div>
 
       <div className="landing-container">
-        <div className="landing-intro">
+        <div className="landing-intro" style={{ position: "relative" }}>
+          <div 
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "150%",
+              height: "150%",
+              background: "radial-gradient(circle at center, rgba(170, 255, 0, 0.08) 0%, transparent 50%)",
+              filter: "blur(60px)",
+              pointerEvents: "none",
+              zIndex: -1
+            }} 
+            aria-hidden="true" 
+          />
           <span className="landing-eyebrow">Hello! I'm</span>
           <h1 className="landing-headline">
             SANDESH<br />GADAKH
@@ -58,17 +73,17 @@ const Landing = ({ children }: PropsWithChildren) => {
           <div className="landing-ctas">
             <a
               href="#work"
-              className="landing-cta-primary"
+              className="btn-primary"
               onClick={(e) => handleScroll(e, "work")}
               data-cursor="disable"
             >
               View My Work
             </a>
             <a
-              href="/resume.pdf"
+              href="/resume.html"
               target="_blank"
               rel="noreferrer"
-              className="landing-cta-secondary"
+              className="btn-secondary"
               data-cursor="disable"
             >
               Download Resume

@@ -3,6 +3,16 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sandesh Gadakh — Creative Technologist · Real-Time 3D, AI, Product</title>
   <meta name="description" content="Sandesh Gadakh — creative technologist building real-time 3D, AI workflows, and interactive product experiences. Selected case studies from MetaShop AI and Byju's." />

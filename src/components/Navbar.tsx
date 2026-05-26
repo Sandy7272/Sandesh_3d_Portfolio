@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { motion, AnimatePresence } from "framer-motion";
 import "./styles/Navbar.css";
 
 import {
@@ -15,36 +16,21 @@ import {
   MobileNavMenu,
 } from "./ui/resizable-navbar";
 
-gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
-export let smoother: ScrollSmoother;
-
 import { useLoading } from "../context/LoadingProvider";
 import sandeshPortrait from "../assets/sandesh_portrait.png";
 
-
 const Navbar = () => {
   const { isLoading } = useLoading();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
-  const handleVisibilityChange = useCallback((visible: boolean) => {
-    setIsScrolled(visible);
-  }, []);
-
+  const smoother = ScrollSmoother.get();
 
   useEffect(() => {
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.7,
-      speed: 1.7,
-      effects: true,
-      autoResize: true,
-      ignoreMobileResize: true,
-    });
+    if (!smoother) return;
 
-    smoother.scrollTop(0);
-    
     if (isLoading) {
       smoother.paused(true);
     } else {
@@ -52,205 +38,219 @@ const Navbar = () => {
       document.body.style.overflowY = "auto";
       document.getElementsByTagName("main")[0]?.classList.add("main-active");
     }
+  }, [isLoading, smoother]);
 
-    const handleResize = () => {
-      ScrollSmoother.refresh(true);
-    };
-    
-    window.addEventListener("resize", handleResize);
-    
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      if (smoother) {
-        smoother.kill();
-      }
-    };
-  }, [isLoading]);
-
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, section: string) => {
-    // Handle route-based links (like /about)
-    if (section.startsWith("/")) {
-      e.preventDefault();
-      window.location.href = section;
+  // Track active section on the home page for dynamic navbar highlighting
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setActiveSection(null);
       return;
     }
-    if (window.innerWidth > 1024) {
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target.id === "landingDiv") {
+              setActiveSection("/");
+            } else if (entry.target.id === "work") {
+              setActiveSection("#work");
+            }
+          }
+        });
+      },
+      { threshold: 0.3, rootMargin: "-80px 0px -40% 0px" }
+    );
+
+    // Wait a tick for elements to be available
+    const timeout = setTimeout(() => {
+      const landing = document.getElementById("landingDiv");
+      const work = document.getElementById("work");
+
+      if (landing) observer.observe(landing);
+      if (work) observer.observe(work);
+    }, 100);
+
+    return () => {
+      clearTimeout(timeout);
+      observer.disconnect();
+    };
+  }, [location.pathname]);
+
+  /**
+   * Universal nav handler.
+   * - `/route` links → react-router navigate (SPA, no page reload)
+   * - `#hash` links → if on home, smooth-scroll; if on another page, route to "/" then scroll
+   */
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, target: string) => {
       e.preventDefault();
-      if (smoother) {
-        smoother.scrollTo(section, true, "top top");
+      setIsMobileMenuOpen(false);
+
+      // Route link
+      if (target.startsWith("/")) {
+        if (location.pathname !== target) navigate(target);
+        return;
       }
+
+      // Hash link
+      if (target.startsWith("#")) {
+        if (location.pathname !== "/") {
+          // Navigate to home, then scroll once mounted
+          navigate("/", { state: { scrollTo: target } });
+          return;
+        }
+        // On home: prefer ScrollSmoother on desktop, native on mobile
+        if (window.innerWidth > 1024 && smoother) {
+          smoother.scrollTo(target, true, "top top");
+        } else {
+          const el = document.querySelector(target);
+          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    },
+    [location.pathname, navigate, smoother]
+  );
+
+  // Handle deferred hash-scroll after cross-page navigation (e.g. /about → / → #experience)
+  useEffect(() => {
+    const state = location.state as { scrollTo?: string } | null;
+    if (state?.scrollTo && location.pathname === "/") {
+      const target = state.scrollTo;
+      // Wait for the home page to mount and smoother to be ready
+      const t = setTimeout(() => {
+        if (window.innerWidth > 1024 && smoother) {
+          smoother.scrollTo(target, true, "top top");
+        } else {
+          document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        // Clear state so refresh doesn't re-trigger
+        window.history.replaceState({}, "");
+      }, 500);
+      return () => clearTimeout(t);
     }
-  };
+  }, [location, smoother]);
 
   const navItems = [
+    { name: "Home", link: "/" },
     { name: "About", link: "/about" },
-    { name: "Experience", link: "#experience" },
-    { name: "Work", link: "#work" },
+    { name: "Work", link: "/work" },
+    { name: "Blogs", link: "/blogs" },
   ];
+
+  // Determine active link for highlighting
+  const activeLink = activeSection || location.pathname;
 
   return (
     <>
-      <ResizableNavbar onVisibilityChange={handleVisibilityChange}>
-        {/* Desktop Navigation */}
+      <ResizableNavbar>
+        {/* ════════════ DESKTOP ════════════ */}
         <NavBody>
-          <AnimatePresence mode="wait" initial={false}>
-            {!isScrolled ? (
-              <motion.div
-                key="nav-full"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center justify-between w-full gap-4"
-              >
-                {/* Left: Portrait with availability dot */}
-                <div className="relative z-20 flex-shrink-0">
-                  <img
-                    src={sandeshPortrait}
-                    alt="Sandesh Gadakh"
-                    className="w-10 h-10 rounded-full object-cover border-2 border-white/10"
-                  />
-                  <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-emerald-400 border-[2.5px] border-neutral-950 shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
-                </div>
+          {/* ── Left: Portrait (always visible, smoothly resizes) ── */}
+          <motion.div
+            className="relative flex-shrink-0 z-20"
+          >
+            <motion.img
+              src={sandeshPortrait}
+              alt="Sandesh Gadakh"
+              style={{
+                width: 38,
+                height: 38,
+              }}
+              className="rounded-full object-cover ring-2 ring-[var(--border)] shadow-lg shadow-black/30"
+            />
+            <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[var(--accent)] border-2 border-[#0a0e17] shadow-[0_0_8px_var(--shadow-glow)]" />
+          </motion.div>
 
-                {/* Center: Nav links */}
-                <NavItems items={navItems} onItemClick={handleScroll} />
+          {/* ── Center: Nav links (always visible, no absolute positioning) ── */}
+          <NavItems
+            items={navItems}
+            activeLink={activeLink}
+            onItemClick={handleNavClick}
+          />
 
-                {/* Right: Contact CTA */}
-                <a
-                  href="#contact"
-                  onClick={(e) => handleScroll(e, "#contact")}
-                  className="relative z-20 flex-shrink-0 px-5 py-2 bg-white text-neutral-950 rounded-full font-semibold text-sm tracking-tight hover:bg-neutral-100 hover:shadow-[0_4px_20px_rgba(255,255,255,0.15)] active:scale-[0.97] transition-all duration-200 cursor-pointer"
-                  data-cursor="disable"
-                >
-                  Contact
-                </a>
-              </motion.div>
-            ) : (
-              <motion.a
-                key="nav-pill"
-                href="#contact"
-                onClick={(e) => handleScroll(e, "#contact")}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center justify-center gap-3 w-full py-1 group"
-                data-cursor="disable"
-              >
-                <img
-                  src={sandeshPortrait}
-                  alt="Sandesh Gadakh"
-                  className="w-7 h-7 rounded-full object-cover border border-white/20 shadow-md group-hover:scale-105 transition-transform duration-300"
-                />
-                <span className="text-[13px] font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors duration-200">
-                  Available for work
-                </span>
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-                </span>
-              </motion.a>
-            )}
-          </AnimatePresence>
+          {/* ── Right: Simple Contact CTA ── */}
+          <div className="flex-shrink-0 relative">
+            <a
+              href="#contact"
+              onClick={(e) => handleNavClick(e, "#contact")}
+              className="btn-primary py-1.5 px-5 h-8 text-[13px]"
+              data-cursor="disable"
+            >
+              Contact
+            </a>
+          </div>
         </NavBody>
 
-
-        {/* Mobile Navigation */}
+        {/* ════════════ MOBILE ════════════ */}
         <MobileNav>
-          <AnimatePresence mode="wait" initial={false}>
-            {!isScrolled ? (
-              <motion.div
-                key="mnav-full"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full"
-              >
-                <MobileNavHeader>
-                  <div className="relative flex-shrink-0">
-                    <img
-                      src={sandeshPortrait}
-                      alt="Sandesh Gadakh"
-                      className="w-9 h-9 rounded-full object-cover border-2 border-white/10"
-                    />
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-neutral-950" />
-                  </div>
-                  <MobileNavToggle
-                    isOpen={isMobileMenuOpen}
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  />
-                </MobileNavHeader>
+          <MobileNavHeader>
+            {/* Portrait */}
+            <motion.div className="relative flex-shrink-0">
+              <motion.img
+                src={sandeshPortrait}
+                alt="Sandesh Gadakh"
+                style={{
+                  width: 36,
+                  height: 36,
+                }}
+                className="rounded-full object-cover ring-2 ring-white/10 shadow-md"
+              />
+              <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-[var(--accent)] border-2 border-neutral-950" />
+            </motion.div>
 
-                <MobileNavMenu
-                  isOpen={isMobileMenuOpen}
-                  onClose={() => setIsMobileMenuOpen(false)}
+            {/* Center: Name */}
+            <div className="flex-1 flex items-center justify-center min-w-0 px-2">
+              <span className="text-[13px] font-semibold tracking-wide text-white truncate">
+                Sandesh
+              </span>
+            </div>
+
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          </MobileNavHeader>
+
+          {/* Mobile menu */}
+          <MobileNavMenu
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          >
+            {navItems.map((item, idx) => {
+              const isActive =
+                activeLink === item.link ||
+                (item.link.startsWith("/") && activeLink === item.link);
+              return (
+                <a
+                  key={`mobile-link-${idx}`}
+                  href={item.link}
+                  onClick={(e) => handleNavClick(e, item.link)}
+                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-base font-medium transition-colors ${isActive
+                    ? "bg-white/[0.08] text-white"
+                    : "text-neutral-300 hover:bg-white/[0.05]"
+                    }`}
                 >
-                  {navItems.map((item, idx) => (
-                    <a
-                      key={`mobile-link-${idx}`}
-                      href={item.link}
-                      onClick={(e) => {
-                        setIsMobileMenuOpen(false);
-                        handleScroll(e, item.link);
-                      }}
-                      className="relative text-lg font-medium text-neutral-300 hover:text-white transition-colors duration-200"
-                    >
-                      <span className="block">{item.name}</span>
-                    </a>
-                  ))}
-                  <div className="flex w-full flex-col gap-4 mt-4">
-                    <a
-                      href="#contact"
-                      className="w-full py-2.5 bg-white text-neutral-950 rounded-full font-semibold text-sm text-center hover:bg-neutral-100 active:scale-[0.97] transition-all duration-200"
-                      onClick={(e) => {
-                        setIsMobileMenuOpen(false);
-                        handleScroll(e, "#contact");
-                      }}
-                      data-cursor="disable"
-                    >
-                      Contact
-                    </a>
-                  </div>
-                </MobileNavMenu>
-              </motion.div>
-            ) : (
-              <motion.a
-                key="mnav-pill"
-                href="#contact"
-                onClick={(e) => handleScroll(e, "#contact")}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center justify-center gap-3 w-full py-1 group"
-                data-cursor="disable"
-              >
-                <img
-                  src={sandeshPortrait}
-                  alt="Sandesh Gadakh"
-                  className="w-7 h-7 rounded-full object-cover border border-white/20 shadow-md group-hover:scale-105 transition-transform duration-300"
-                />
-                <span className="text-[13px] font-medium tracking-wide text-neutral-200 group-hover:text-white transition-colors duration-200">
-                  Available for work
-                </span>
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-                </span>
-              </motion.a>
-            )}
-          </AnimatePresence>
+                  <span>{item.name}</span>
+                  <span className="text-neutral-400 dark:text-neutral-500 text-sm">↗</span>
+                </a>
+              );
+            })}
+
+            {/* Contact CTA */}
+            <a
+              href="#contact"
+              className="w-full py-2.5 mt-2 btn-primary"
+              onClick={(e) => handleNavClick(e, "#contact")}
+              data-cursor="disable"
+            >
+              Let's Talk →
+            </a>
+          </MobileNavMenu>
         </MobileNav>
       </ResizableNavbar>
-
-      <div className="landing-circle1"></div>
-      <div className="landing-circle2"></div>
-      <div className="nav-fade"></div>
     </>
   );
 };
 
 export default Navbar;
-
